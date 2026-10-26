@@ -1,0 +1,46 @@
+---
+import { MENU, R, SITE } from '../lib/site';
+import { u } from '../lib/url';
+import CartBadge from '../islands/CartBadge';
+const path = Astro.url.pathname;
+const on = (href: string) => href !== '/' && path.startsWith(u(href));
+---
+<div class="top"><div class="wrap">
+  <span class="top__tag">Производство в Сергиевом Посаде · опт и розница · заявки 24/7</span>
+  <span><a href={SITE.phones[0].href}>{SITE.phones[0].text}</a> · <a href={`mailto:${SITE.email}`}>{SITE.email}</a></span>
+</div></div>
+<header class="hdr"><div class="wrap">
+  <a class="logo" href={u('/')}><b>РОЗАЛИЯ</b><span>ритуальные венки от производителя</span></a>
+  <nav class="nav" aria-label="Меню">
+    {MENU.map((m) => (
+      <div>
+        <a class:list={['nav__i', { on: on(m.href) }]} href={u(m.href)}>{m.name}{m.sub && ' ▾'}</a>
+        {m.sub && <div class="nav__sub">{m.sub.map((s) => <a href={u(s.href)}>{s.name}</a>)}<a href={u(m.href)}><b>Все →</b></a></div>}
+      </div>
+    ))}
+  </nav>
+  <div class="hdr__act">
+    <a class="hdr__phone btn btn--line btn--sm" href={SITE.phones[0].href}>{SITE.phones[0].text}</a>
+    <a class="cartbtn" href={u(R.cart)} aria-label="Заявка">Заявка <CartBadge client:idle /></a>
+    <button class="burger" type="button" aria-label="Меню" aria-expanded="false" aria-controls="mnav">☰</button>
+  </div>
+</div></header>
+<nav class="mnav" id="mnav" aria-label="Меню">
+  {MENU.map((m) => <>
+    <a href={u(m.href)}>{m.name}</a>
+    {m.sub && <div class="sub">{m.sub.map((s) => <a href={u(s.href)}>{s.name}</a>)}</div>}
+  </>)}
+  <div class="ph">{SITE.phones.map((p) => <a href={p.href}>{p.text}</a>)}</div>
+</nav>
+<script>
+  const b = document.querySelector<HTMLButtonElement>('.burger');
+  const m = document.getElementById('mnav');
+  b?.addEventListener('click', () => {
+    const open = !m?.classList.contains('open');
+    if (m) m.style.top = `${document.querySelector('.hdr')!.getBoundingClientRect().bottom}px`;
+    m?.classList.toggle('open', open);
+    b.setAttribute('aria-expanded', String(open));
+    b.textContent = open ? '✕' : '☰';
+    document.documentElement.style.overflow = open ? 'hidden' : '';
+  });
+</script>

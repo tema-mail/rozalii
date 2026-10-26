@@ -1,0 +1,48 @@
+---
+// Сетка товаров с фильтром: чип «Все» первым, выбор прячет лишнее (стандарт каталога владельца), поиск по названию и артикулу.
+import type { Product } from '../lib/catalog';
+import ProductCard from './ProductCard.astro';
+interface Props { products: Product[]; chips?: { key: string; name: string }[]; by?: 'sub' | 'sec' }
+const { products, chips = [], by = 'sub' } = Astro.props;
+const count = (k: string) => products.filter((p) => (by === 'sub' ? p.sub : p.section) === k).length;
+---
+<div class="cat" data-by={by}>
+  <div class="chips" role="group" aria-label="Фильтр">
+    {chips.length > 0 && <button type="button" class="chip" aria-pressed="true" data-k="">Все <span class="mut">{products.length}</span></button>}
+    {chips.filter((c) => count(c.key)).map((c) => <button type="button" class="chip" aria-pressed="false" data-k={c.key}>{c.name} <span class="mut">{count(c.key)}</span></button>)}
+    <input class="cat__q" type="search" placeholder="Название или артикул" aria-label="Поиск" style="border:1px solid var(--line);border-radius:999px;padding:8px 16px;min-width:0;flex:1 1 200px;max-width:320px" />
+  </div>
+  <div class="prods prods--4">
+    {products.map((p, i) => <div data-k={by === 'sub' ? p.sub || '' : p.section} data-q={`${p.title} ${p.sku} ${p.variants.map((v) => v.sku).join(' ')}`.toLowerCase()} style="display:contents"><ProductCard p={p} eager={i < 4} /></div>)}
+  </div>
+  <p class="cat__none mut" hidden>Ничего не нашли. Попробуйте другое название или <a href="#zayavka">оставьте заявку</a> – подберём.</p>
+</div>
+<script>
+  document.querySelectorAll<HTMLElement>('.cat').forEach((cat) => {
+    const chips = [...cat.querySelectorAll<HTMLButtonElement>('.chip')];
+    const items = [...cat.querySelectorAll<HTMLElement>('.prods > [data-k]')];
+    const q = cat.querySelector<HTMLInputElement>('.cat__q')!;
+    const none = cat.querySelector<HTMLElement>('.cat__none')!;
+    let key = new URLSearchParams(location.search).get('f') || '';
+    const apply = () => {
+      const s = q.value.trim().toLowerCase();
+      let shown = 0;
+      items.forEach((el) => {
+        const ok = (!key || el.dataset.k === key) && (!s || el.dataset.q!.includes(s));
+        (el.firstElementChild as HTMLElement).hidden = !ok;
+        if (ok) shown++;
+      });
+      chips.forEach((c) => c.setAttribute('aria-pressed', String((c.dataset.k || '') === key)));
+      none.hidden = shown > 0;
+    };
+    chips.forEach((c) => c.addEventListener('click', () => {
+      key = c.dataset.k || '';
+      const url = new URL(location.href);
+      if (key) url.searchParams.set('f', key); else url.searchParams.delete('f');
+      history.replaceState(null, '', url);
+      apply();
+    }));
+    q.addEventListener('input', apply);
+    if (key) apply();
+  });
+</script>

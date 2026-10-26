@@ -1,0 +1,47 @@
+---
+import Base from '../../layouts/Base.astro';
+import Crumbs from '../../components/Crumbs.astro';
+import Img from '../../components/Img.astro';
+import Steps from '../../components/Steps.astro';
+import Faq from '../../components/Faq.astro';
+import ProductCard from '../../components/ProductCard.astro';
+import LeadSection from '../../components/LeadSection.astro';
+import { SERVICE_PAGES } from '../../data/services';
+import { PRODUCTS } from '../../lib/catalog';
+import { R, SERVICES } from '../../lib/site';
+import { u } from '../../lib/url';
+
+export function getStaticPaths() {
+  return SERVICES.map((s) => ({ params: { slug: s.slug } }));
+}
+const { slug } = Astro.params;
+const s = SERVICE_PAGES[slug!];
+const name = SERVICES.find((x) => x.slug === slug)!.name;
+const picks = PRODUCTS.filter((p) => !p.placeholder).slice(4, 8);
+---
+<Base title={s.title} description={s.descr} >
+  <Crumbs items={[{ name: 'Услуги', href: R.uslugi }, { name }]} />
+  <section class="hero"><div class="wrap hero__in">
+    <div>
+      <h1>{s.h1}</h1>
+      <p class="lead">{s.lead}</p>
+      <div class="btns"><a class="btn" href="#zayavka">{s.cta}</a><a class="btn btn--line" href={u(R.katalog)}>Смотреть каталог</a></div>
+    </div>
+    <div class="hero__img"><Img name={s.hero} alt={s.h1} eager /></div>
+  </div></section>
+  <section class="sec--tight"><div class="wrap">
+    <h2>{s.cardsTitle}</h2>
+    <div class="grid g4" style="margin-top:16px">{s.cards.map(([h, t]) => <div class="card"><h3>{h}</h3><p class="mut">{t}</p></div>)}</div>
+  </div></section>
+  <Steps title="Как заказать" items={s.steps} />
+  {s.extra && <section class="sec sec--soft"><div class="wrap split">
+    <div><h2>{s.extra.title}</h2><p>{s.extra.text}</p><a class="btn" href={u(R.katalog)}>Выбрать изделие</a></div>
+    <Img name={s.extra.img} alt={s.extra.title} />
+  </div></section>}
+  <section class="sec"><div class="wrap">
+    <div class="head"><h2>Что можно заказать</h2><a href={u(R.katalog)}>Весь каталог →</a></div>
+    <div class="prods prods--4">{picks.map((p) => <ProductCard p={p} />)}</div>
+  </div></section>
+  <Faq items={s.faq} />
+  <LeadSection kind="service" title={s.cta} button="Отправить заявку" text="Сообщите дату, время, адрес и что нужно – уточним детали и назовём стоимость." />
+</Base>

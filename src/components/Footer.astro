@@ -1,0 +1,27 @@
+---
+import { R, SECTIONS, SERVICES, SITE } from '../lib/site';
+import { u } from '../lib/url';
+---
+<footer class="ftr"><div class="wrap">
+  <div class="ftr__g">
+    <div>
+      <h4>РОЗАЛИЯ</h4>
+      <p>Производство ритуальных венков, корзин и композиций в Сергиевом Посаде. Опт и розница, доставка по Подмосковью, отправка по России.</p>
+    </div>
+    <div><h4>Каталог</h4><ul>{SECTIONS.map((s) => <li><a href={u(`/katalog/${s.slug}/`)}>{s.name}</a></li>)}</ul></div>
+    <div><h4>Покупателям</h4><ul>
+      {SERVICES.map((s) => <li><a href={u(`/uslugi/${s.slug}/`)}>{s.name}</a></li>)}
+      <li><a href={u(R.optom)}>Оптовым клиентам</a></li><li><a href={u(R.dostavka)}>Доставка и оплата</a></li>
+      <li><a href={u(R.about)}>О компании</a></li>
+    </ul></div>
+    <div><h4>Контакты</h4><ul>
+      {SITE.phones.map((p) => <li><a href={p.href}>{p.text}</a></li>)}
+      <li><a href={`mailto:${SITE.email}`}>{SITE.email}</a></li>
+      <li>{SITE.address}</li><li>{SITE.hours}</li>
+    </ul></div>
+  </div>
+  <div class="ftr__b">
+    <span>© {new Date().getFullYear()} Розалия</span>
+    <span><a href={u(R.policy)}>Политика конфиденциальности</a> · <a href={u(R.agreement)}>Пользовательское соглашение</a> · <a href={u(R.consent)}>Согласие на обработку данных</a> · <a href={u(R.map)}>Карта сайта</a> · <button type="button" data-cookie-settings>Настройки cookie</button></span>
+  </div>
+</div></footer>

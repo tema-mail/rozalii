@@ -1,0 +1,14 @@
+---
+// Переадресация со старых адресов Тильды на Pages (там нет серверных 301). В бою те же пары отдаёт сервер кодом 301.
+import { LEGACY } from '../lib/legacy';
+import { u } from '../lib/url';
+export function getStaticPaths() {
+  return Object.entries(LEGACY).map(([from, to]) => ({ params: { legacy: from.slice(1) }, props: { to } }));
+}
+const to = new URL(u(Astro.props.to), Astro.site).href;
+---
+<!doctype html>
+<html lang="ru"><head><meta charset="utf-8" /><title>Страница переехала</title>
+<meta name="robots" content="noindex" /><link rel="canonical" href={to} /><meta http-equiv="refresh" content={`0; url=${to}`} />
+<script is:inline define:vars={{ to }}>location.replace(to);</script></head>
+<body><p>Страница переехала: <a href={to}>{to}</a></p></body></html>

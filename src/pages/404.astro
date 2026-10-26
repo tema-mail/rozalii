@@ -1,0 +1,12 @@
+---
+import Base from '../layouts/Base.astro';
+import { R } from '../lib/site';
+import { u } from '../lib/url';
+---
+<Base title="Страница не найдена – Розалия" description="Страница не найдена." noindex>
+  <section class="sec"><div class="wrap" style="max-width:760px;text-align:center">
+    <h1>Страница не найдена</h1>
+    <p class="lead" style="margin:0 auto 20px">Возможно, адрес изменился после обновления сайта. Загляните в каталог или на карту сайта.</p>
+    <div class="btns" style="justify-content:center"><a class="btn" href={u(R.katalog)}>Каталог</a><a class="btn btn--line" href={u(R.map)}>Карта сайта</a></div>
+  </div></section>
+</Base>

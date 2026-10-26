@@ -1,0 +1,42 @@
+---
+import Base from '../../layouts/Base.astro';
+import Crumbs from '../../components/Crumbs.astro';
+import Img from '../../components/Img.astro';
+import LeadSection from '../../components/LeadSection.astro';
+import { R } from '../../lib/site';
+import { u } from '../../lib/url';
+---
+<Base title="О компании Розалия – производство ритуальных венков в Сергиевом Посаде"
+  description="Сами производим ритуальные венки, корзины и композиции: каркасы, закупка материалов, сборка. Частные заказы и поставки для ритуальных организаций, срочное изготовление.">
+  <Crumbs items={[{ name: 'О компании' }]} />
+  <section class="hero"><div class="wrap hero__in">
+    <div>
+      <h1>Производим ритуальные венки, корзины и композиции в Сергиевом Посаде</h1>
+      <p class="lead">Работаем с частными заказчиками, ритуальными магазинами, агентствами и другими организациями. Принимаем единичные заказы, небольшие и крупные партии, организуем регулярные поставки.</p>
+      <div class="btns"><a class="btn" href={u(R.katalog)}>Перейти в каталог</a><a class="btn btn--line" href="#zayavka">Связаться с нами</a></div>
+    </div>
+    <div class="hero__img"><Img name="o-nas" alt="Флорист собирает ритуальный венок" eager /></div>
+  </div></section>
+  <section class="sec"><div class="wrap split">
+    <Img name="proizvodstvo" alt="Собственное производство ритуальной продукции" />
+    <div>
+      <h2>Собственное производство</h2>
+      <p>Основную продукцию изготавливаем сами – от подготовки каркасов и основ до сборки готовых изделий.</p>
+      <p>Сами закупаем материалы и контролируем процесс. Это позволяет работать с разными объёмами, поддерживать ассортимент и делать изделия по индивидуальным требованиям.</p>
+      <a class="btn btn--line" href={u(R.optom)}>Условия для оптовиков</a>
+    </div>
+  </div></section>
+  <section class="sec sec--soft"><div class="wrap">
+    <h2>С кем и как работаем</h2>
+    <div class="grid g2" style="margin-top:16px">
+      <div class="card"><h3>Розничные заказы</h3><p class="mut">Частные заказчики выбирают готовое изделие или заказывают индивидуальный вариант.</p><a href={u(R.katalog)}>В каталог →</a></div>
+      <div class="card"><h3>Ритуальные организации</h3><p class="mut">Одно из основных направлений – производство и поставка для магазинов, агентств и торговых точек.</p><a href={u(R.optom)}>Оптом →</a></div>
+    </div>
+    <div class="grid g3" style="margin-top:16px">
+      <div class="tile"><Img name="po-eskizu" alt="Изготовление по эскизу" sizes="(max-width: 640px) 100vw, 33vw" /><div class="tile__b"><h3>Под индивидуальный заказ</h3><p>Нет нужного изделия среди готовых – сделаем по фото, эскизу или образцу, параметры согласуем заранее.</p></div></div>
+      <div class="tile"><Img name="dostavka-mashina" alt="Собственная доставка" sizes="(max-width: 640px) 100vw, 33vw" /><div class="tile__b"><h3>Собственная доставка</h3><p>По ближайшим направлениям – своим транспортом, опт в другие регионы – транспортными компаниями.</p></div></div>
+      <div class="tile"><Img name="opt-3" alt="Срочное изготовление" sizes="(max-width: 640px) 100vw, 33vw" /><div class="tile__b"><h3>Срочное изготовление</h3><p>При возможности производства – в день обращения. Для крупных партий ориентир – примерно неделя.</p></div></div>
+    </div>
+  </div></section>
+  <LeadSection />
+</Base>

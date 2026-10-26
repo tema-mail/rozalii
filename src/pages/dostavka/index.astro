@@ -1,0 +1,45 @@
+---
+import Base from '../../layouts/Base.astro';
+import Crumbs from '../../components/Crumbs.astro';
+import Img from '../../components/Img.astro';
+import Steps from '../../components/Steps.astro';
+import LeadSection from '../../components/LeadSection.astro';
+import { R, SITE } from '../../lib/site';
+import { u } from '../../lib/url';
+---
+<Base title="Доставка и оплата ритуальных венков – Розалия, Сергиев Посад"
+  description="Самовывоз с производства, доставка своим транспортом по Сергиеву Посаду, Дмитрову, Пушкино, Хотьково и другим городам, к месту прощания; отправка опта ТК по России. Оплата.">
+  <Crumbs items={[{ name: 'Доставка и оплата' }]} />
+  <section class="hero"><div class="wrap hero__in">
+    <div>
+      <h1>Доставка и оплата</h1>
+      <p class="lead">Доставляем венки, корзины и композиции своим транспортом по Сергиеву Посаду и ближайшим городам. Оптовые заказы в другие регионы отправляем транспортными компаниями.</p>
+      <div class="btns"><a class="btn" href={u(R.katalog)}>Перейти в каталог</a><a class="btn btn--line" href="#zayavka">Связаться с нами</a></div>
+    </div>
+    <div class="hero__img"><Img name="dostavka" alt="Доставка ритуальных венков" eager /></div>
+  </div></section>
+  <section class="sec--tight"><div class="wrap grid g4">
+    <div class="card"><h3>Самовывоз</h3><p class="mut">После согласования готовности, состава заказа и времени получения. {SITE.addressShort}.</p></div>
+    <div class="card"><h3>Доставка своим транспортом</h3><p class="mut">По ближайшим направлениям – список городов ниже.</p></div>
+    <div class="card"><h3>Розничные заказы</h3><p class="mut">Частным клиентам – доставка по Сергиеву Посаду и ближайшим городам.</p></div>
+    <div class="card"><h3>К месту прощания</h3><p class="mut">По договорённости – в морг, крематорий, храм или к месту церемонии. <a href={u('/uslugi/dostavka-k-mestu-proshchaniya/')}>Подробнее</a></p></div>
+  </div></section>
+  <section class="sec"><div class="wrap split">
+    <div>
+      <h2>География доставки</h2>
+      <p>Собственная доставка доступна по направлениям:</p>
+      <ul class="chips-list">{SITE.geo.map((g) => <li>{g}</li>)}</ul>
+      <p class="mut" style="margin-top:16px">Для доставки и возложения к памятной дате работаем и по Москве. Стоимость доставки назовём под адрес.</p>
+    </div>
+    <Img name="karta-dostavki" alt="Карта направлений доставки из Сергиева Посада" />
+  </div></section>
+  <Steps title="Отправка оптовых заказов по России" items={[['Согласуем ассортимент', 'Утверждаем перечень и количество, менеджер поможет подобрать позиции.'], ['Готовим заказ', 'Собираем, проверяем, упаковываем и маркируем каждое изделие.'], ['Выбираем способ', 'Самовывоз, наша доставка или транспортная компания.'], ['Передаём в ТК', 'С документами и трек-номером; стоимость и срок – по региону и объёму.']]} />
+  <section class="sec sec--soft"><div class="wrap">
+    <h2>Оплата</h2>
+    <div class="grid g2" style="margin-top:16px">
+      <div class="card"><h3>Розничные заказы</h3><p class="mut">Условия оплаты согласуем при оформлении. Если заказ с доставкой к месту прощания – все детали обговорим заранее.</p></div>
+      <div class="card"><h3>Оптовые заказы</h3><p class="mut">Зависят от объёма и формата: предоплата, частичная предоплата, расчёт при получении или индивидуальные условия для постоянных партнёров. Возможна работа по договору и поставка под реализацию.</p></div>
+    </div>
+  </div></section>
+  <LeadSection />
+</Base>

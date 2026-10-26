@@ -1,3 +1,9 @@
 node_modules
 dist
 .DS_Store
+.astro
+docs/source/cache
+docs/source/img/*
+!docs/source/img/index.tsv
+docs/source/shots
+docs/source/pages/*.html

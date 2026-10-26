@@ -1,0 +1,18 @@
+---
+import type { Product } from '../lib/catalog';
+import { productUrl } from '../lib/catalog';
+import { u } from '../lib/url';
+interface Props { p: Product; eager?: boolean }
+const { p, eager = false } = Astro.props;
+---
+<a class="pc" href={u(productUrl(p))} data-sub={p.sub || ''} data-sec={p.section}>
+  <div class="pc__img">
+    <img src={u(`${p.photos[0]}-480.webp`)} alt={p.title} width="480" height="480" loading={eager ? 'eager' : 'lazy'} decoding="async" />
+    {p.madeToOrder && <span class="pc__tag">Под заказ</span>}
+  </div>
+  <div class="pc__b">
+    <div class="pc__t">{p.title}</div>
+    <div class="pc__m">{p.subName || p.sectionName}{p.variants.length > 0 && ` · ${p.variants.length} цв.`}</div>
+    <div class="pc__p">Цена по запросу</div>
+  </div>
+</a>

@@ -15,5 +15,5 @@ for p in src:
                 "url": p["new_url"]})
 ORDER = list(RETAIL)
 out.sort(key=lambda x: ORDER.index(x["group"]))
-(root / "pages/opt/data.js").write_text("window.OPT_PRODUCTS = " + json.dumps(out, ensure_ascii=False) + ";\n")
+(root / "public/opt/data.js").write_text("window.OPT_PRODUCTS = " + json.dumps(out, ensure_ascii=False) + ";\n")
 print(len(out), "товаров")
