@@ -5,6 +5,9 @@ import { R } from '../lib/site';
 
 // Окно согласия на cookie – по центру, при первом входе: «Принять все», «Только необходимые», «Настроить» (стандарт владельца).
 // Повторно открывается кнопкой «Настройки cookie» в подвале. Образец – gaz-mag.
+// Метрика – только при PUBLIC_METRIKA_ID (на показе её нет); карты Яндекса на сайте пока нет – о ней не пишем.
+const HAS_METRIKA = !!import.meta.env.PUBLIC_METRIKA_ID;
+
 export default function CookieConsent() {
   const [open, setOpen] = useState(false);
   const [details, setDetails] = useState(false);
@@ -33,13 +36,12 @@ export default function CookieConsent() {
       <div class="cc__bg" />
       <div class="cc__box" ref={box}>
         <h2 class="cc__title" id="cc-title">Мы используем cookie</h2>
-        <p>Сайт хранит в браузере корзину и ваш выбор по cookie – без этого заказ не оформить. С вашего согласия включаем
-          Яндекс Метрику (статистика посещений) и карту Яндекса в «Контактах» – оба сервиса сохраняют свои cookie.</p>
+        <p>Сайт хранит в браузере заявку и ваш выбор по cookie – без этого заказ не оформить.
+          {HAS_METRIKA && ' С вашего согласия включаем Яндекс Метрику – статистику посещений; она сохраняет свои cookie.'}</p>
         {details && (
           <div class="cc__opts">
             <label class="cc__opt"><input type="checkbox" checked disabled /><span><b>Необходимые</b> – корзина и выбор по cookie. Работают всегда.</span></label>
-            <label class="cc__opt"><input type="checkbox" checked={yandex} onChange={(e) => setYandex((e.target as HTMLInputElement).checked)} /><span><b>Сервисы Яндекса</b> – карта проезда в «Контактах».</span></label>
-            <label class="cc__opt"><input type="checkbox" checked={metrika} onChange={(e) => setMetrika((e.target as HTMLInputElement).checked)} /><span><b>Аналитика</b> – Яндекс Метрика: статистика посещений и Вебвизор. Данные обрабатывает ООО «Яндекс».</span></label>
+            {HAS_METRIKA && <label class="cc__opt"><input type="checkbox" checked={metrika} onChange={(e) => setMetrika((e.target as HTMLInputElement).checked)} /><span><b>Аналитика</b> – Яндекс Метрика: статистика посещений и Вебвизор. Данные обрабатывает ООО «Яндекс».</span></label>}
           </div>
         )}
         <p class="cc__docs">Подробнее: <a href={u(R.policy)}>Политика конфиденциальности</a> · <a href={u(R.consent)}>Согласие на обработку персональных данных</a></p>

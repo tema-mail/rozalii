@@ -19,7 +19,7 @@ export default function LeadForm({ kind, button = 'Отправить заявк
 
   const submit = async (e: Event) => {
     e.preventDefault();
-    const items = withCart ? readCart().map(({ title, color, qty, ribbon }) => ({ title, color, qty, ribbon })) : undefined;
+    const items = withCart ? readCart().map(({ title, category = '', sku = '', url, color, qty, ribbon }) => ({ title, category, sku, url: location.origin + u(url), color, qty, ribbon })) : undefined;
     const lead: Lead = { kind, name, phone, comment, consent, items, page: location.pathname };
     const bad = validate(lead) || (withCart && !items?.length ? 'В заявке нет товаров' : null);
     if (bad) { setErr(bad); return; }
@@ -38,7 +38,7 @@ export default function LeadForm({ kind, button = 'Отправить заявк
       </label>
       <label class="field"><span>Телефон</span>
         <input name="phone" type="tel" autoComplete="tel" inputMode="tel" placeholder="+7 (___) ___-__-__" value={phone}
-          onInput={(e) => setPhone(maskPhone((e.target as HTMLInputElement).value))} required />
+          onInput={(e) => { const el = e.target as HTMLInputElement; const v = maskPhone(el.value); el.value = v; setPhone(v); }} required />
       </label>
       <label class="field"><span>Комментарий</span>
         <textarea name="comment" rows={3} placeholder={placeholder} value={comment} onInput={(e) => setComment((e.target as HTMLTextAreaElement).value)} />

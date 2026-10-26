@@ -24,13 +24,14 @@ export default function CartPage() {
   const set = (i: number, qty: number) => { const n = [...items]; if (qty < 1) n.splice(i, 1); else n[i] = { ...n[i], qty }; writeCart(n); };
   return (
     <div class="cart">
+      <a class="btn cart__go" href="#oformit">К оформлению · {items.reduce((a, x) => a + x.qty, 0)} шт.</a>
       <div class="card">
         {items.map((x, i) => (
           <div class="ci">
             <img src={u(`${x.photo}-480.webp`)} alt="" width={88} height={88} />
             <div>
               <a href={u(x.url)}>{x.title}</a>
-              <div class="ci__m">{[x.color, x.ribbon].filter(Boolean).join(' · ') || 'Без ленты'}</div>
+              <div class="ci__m">{[x.color, x.ribbon].filter(Boolean).join(' · ') || 'Без ленты'}{x.sku && ` · арт. ${x.sku}`}</div>
             </div>
             <div class="ci__act">
               <div class="qty">
@@ -44,7 +45,7 @@ export default function CartPage() {
         ))}
         <p class="mut" style="margin:16px 0 0;font-size:14px">Стоимость, срок изготовления и доставку менеджер подтвердит после заявки. Оптовым клиентам – цены по прайсу.</p>
       </div>
-      <div class="card">
+      <div class="card" id="oformit">
         <h2 style="font-size:24px">Оформить заявку</h2>
         <LeadForm kind="order" withCart button="Отправить заявку" placeholder="Дата и время, адрес доставки, место прощания" />
       </div>

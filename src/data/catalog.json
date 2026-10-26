@@ -370,7 +370,7 @@
    "size": "140",
    "title": "Венок «Флоренция» элитный 140 см",
    "placeholder": false,
-   "sku": "EL140-010",
+   "sku": "EL140-010-1",
    "photos": [
     "/img/p/021",
     "/img/p/022",
@@ -412,7 +412,7 @@
    "size": "110",
    "title": "Венок 110 см, №01",
    "placeholder": true,
-   "sku": "W110",
+   "sku": "W110-002",
    "photos": [
     "/img/p/025",
     "/img/p/026"
@@ -442,7 +442,7 @@
    "size": "110",
    "title": "Венок «Амур» 110 см",
    "placeholder": false,
-   "sku": "W110",
+   "sku": "W110-003",
    "photos": [
     "/img/p/027",
     "/img/p/028",
@@ -478,7 +478,7 @@
    "size": "110",
    "title": "Венок «Диагональ» 110 см",
    "placeholder": false,
-   "sku": "W110",
+   "sku": "W110-004",
    "photos": [
     "/img/p/030",
     "/img/p/031"
@@ -508,7 +508,7 @@
    "size": "110",
    "title": "Венок 110 см, №04",
    "placeholder": true,
-   "sku": "W110",
+   "sku": "W110-005",
    "photos": [
     "/img/p/032",
     "/img/p/033",
@@ -556,7 +556,7 @@
    "size": "110",
    "title": "Венок 110 см, №05",
    "placeholder": true,
-   "sku": "W110",
+   "sku": "W110-006",
    "photos": [
     "/img/p/037",
     "/img/p/038",
@@ -592,7 +592,7 @@
    "size": "110",
    "title": "Венок 110 см, №06",
    "placeholder": true,
-   "sku": "W110",
+   "sku": "W110-007",
    "photos": [
     "/img/p/040",
     "/img/p/041"
@@ -622,7 +622,7 @@
    "size": "110",
    "title": "Венок 110 см, №07",
    "placeholder": true,
-   "sku": "W110",
+   "sku": "W110-008",
    "photos": [
     "/img/p/042",
     "/img/p/043",
@@ -664,7 +664,7 @@
    "size": "110",
    "title": "Венок 110 см, №08",
    "placeholder": true,
-   "sku": "W110",
+   "sku": "W110-009",
    "photos": [
     "/img/p/046",
     "/img/p/047"
@@ -694,7 +694,7 @@
    "size": "110",
    "title": "Венок 110 см, №09",
    "placeholder": true,
-   "sku": "W110",
+   "sku": "W110-0010",
    "photos": [
     "/img/p/048",
     "/img/p/049",
@@ -730,7 +730,7 @@
    "size": "110",
    "title": "Венок 110 см, №10",
    "placeholder": true,
-   "sku": "W110-010",
+   "sku": "W110-010-1",
    "photos": [
     "/img/p/051",
     "/img/p/052",
@@ -766,7 +766,7 @@
    "size": "110",
    "title": "Венок «Лилия» 110 см",
    "placeholder": false,
-   "sku": "W110",
+   "sku": "W110-012",
    "photos": [
     "/img/p/054",
     "/img/p/055",
@@ -808,7 +808,7 @@
    "size": "110",
    "title": "Венок «Луч» 110 см",
    "placeholder": false,
-   "sku": "W110",
+   "sku": "W110-013",
    "photos": [
     "/img/p/058",
     "/img/p/059"
@@ -910,7 +910,7 @@
    "size": "110",
    "title": "Венок «Верона» 110 см",
    "placeholder": false,
-   "sku": "W110",
+   "sku": "W110-018",
    "photos": [
     "/img/p/064",
     "/img/p/065"
@@ -1084,7 +1084,7 @@
    "size": "90",
    "title": "Венок «Амур» 90 см",
    "placeholder": false,
-   "sku": "W90",
+   "sku": "W90-002",
    "photos": [
     "/img/p/074",
     "/img/p/075",
@@ -1132,7 +1132,7 @@
    "size": "90",
    "title": "Венок «Диагональ» 90 см",
    "placeholder": false,
-   "sku": "W90",
+   "sku": "W90-003",
    "photos": [
     "/img/p/079",
     "/img/p/080",
@@ -1222,7 +1222,7 @@
    "size": "90",
    "title": "Венок 90 см, №06",
    "placeholder": true,
-   "sku": "W90",
+   "sku": "W90-007",
    "photos": [
     "/img/p/085",
     "/img/p/086"
@@ -1270,7 +1270,7 @@
    "size": "90",
    "title": "Венок 90 см, №08",
    "placeholder": true,
-   "sku": "W90",
+   "sku": "W90-009",
    "photos": [
     "/img/p/088",
     "/img/p/089",
@@ -1306,7 +1306,7 @@
    "size": "90",
    "title": "Венок 90 см, №09",
    "placeholder": true,
-   "sku": "W90",
+   "sku": "W90-0010",
    "photos": [
     "/img/p/091",
     "/img/p/092",

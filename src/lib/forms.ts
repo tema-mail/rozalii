@@ -5,7 +5,7 @@ import { phoneOk } from './phone';
 export interface Lead {
   kind: 'order' | 'opt' | 'service' | 'question';
   name: string; phone: string; comment?: string; consent: boolean;
-  items?: { title: string; color: string; qty: number; ribbon: string }[];
+  items?: { title: string; category: string; sku: string; url: string; color: string; qty: number; ribbon: string }[];
   page: string;
 }
 

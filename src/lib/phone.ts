@@ -1,16 +1,21 @@
-/** Маска телефона +7 (XXX) XXX-XX-XX для полей ввода. */
+/** Маска телефона +7 (XXX) XXX-XX-XX. Ввод с «+7», «8», «7» или сразу с кода – одинаково (образец gaz-mag;
+ *  26.10.2026 site-forms: при наборе «+79…» по цифре старая маска считала «7» частью кода и номер съезжал). */
 export function maskPhone(raw: string): string {
-  let d = raw.replace(/\D/g, '');
-  if (d.startsWith('8')) d = '7' + d.slice(1);
-  if (!d.startsWith('7')) d = '7' + d;
-  d = d.slice(0, 11);
-  const p = d.slice(1);
+  const s = raw.trim();
+  if (!s || s === '+') return s;
+  let n: string;
+  if (s.startsWith('+7')) n = s.slice(2).replace(/\D/g, '');
+  else if (s.startsWith('+')) n = s.replace(/\D/g, '');
+  else {
+    const d = s.replace(/\D/g, '');
+    n = /^[78]/.test(d) ? d.slice(1) : d;
+  }
+  n = n.slice(0, 10);
   let out = '+7';
-  if (p.length) out += ' (' + p.slice(0, 3);
-  if (p.length >= 3) out += ')';
-  if (p.length > 3) out += ' ' + p.slice(3, 6);
-  if (p.length > 6) out += '-' + p.slice(6, 8);
-  if (p.length > 8) out += '-' + p.slice(8, 10);
+  if (n.length) out += ' (' + n.slice(0, 3);
+  if (n.length > 3) out += ') ' + n.slice(3, 6); // скобка – только после 4-й цифры, иначе Backspace на ней застревает
+  if (n.length > 6) out += '-' + n.slice(6, 8);
+  if (n.length > 8) out += '-' + n.slice(8, 10);
   return out;
 }
 export const phoneOk = (v: string) => v.replace(/\D/g, '').length === 11;

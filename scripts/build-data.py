@@ -100,7 +100,7 @@ for p in SRC:
         "sub": sub[0] if sub else None, "subName": sub[1] if sub else None,
         "size": p["size_cm"] or (int(sub[0][:3]) if sub else None),
         "title": p["proposed_title"] or p["title"], "placeholder": bool(p["placeholder_name"]),
-        "sku": p["sku"] or (variants[0]["sku"].rsplit("-", 1)[0] if variants and variants[0]["sku"] else ""),
+        "sku": p["sku"] or (variants[0]["sku"] if variants else ""),  # у товаров с исполнениями артикул только у исполнений
         "photos": photos, "variants": variants, "oldUrl": p["old_url"],
         "madeToOrder": p["subsection"] == "Венки 140 под заказ",
     })

@@ -5,7 +5,7 @@ import { R } from '../lib/site';
 
 interface Props {
   uid: string; title: string; url: string; photos: string[]; variants: { color: string; sku: string; photo: string | null }[];
-  sku: string; madeToOrder: boolean;
+  sku: string; madeToOrder: boolean; category: string;
 }
 const RIBBONS = ['Без ленты', 'Белая', 'Чёрная', 'Красная', 'Бордовая'];
 const pic = (b: string, w: number) => u(`${b}-${w}.webp`);
@@ -44,7 +44,7 @@ export default function Buy(p: Props) {
   };
   const add = () => {
     const rib = ribbon === RIBBONS[0] ? '' : `${ribbon} лента${text.trim() ? `: «${text.trim()}»` : ''}`;
-    addToCart({ uid: p.uid, title: p.title, url: p.url, photo: v?.photo || p.photos[0], color: v?.color || '', qty, ribbon: rib });
+    addToCart({ uid: p.uid, title: p.title, url: p.url, photo: v?.photo || p.photos[0], color: v?.color || '', qty, ribbon: rib, sku: v?.sku || p.sku, category: p.category });
     setAdded(true);
     setTimeout(() => setAdded(false), 5000);
   };

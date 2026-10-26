@@ -21,6 +21,7 @@ const on = (href: string) => href !== '/' && path.startsWith(u(href));
   </nav>
   <div class="hdr__act">
     <a class="hdr__phone btn btn--line btn--sm" href={SITE.phones[0].href}>{SITE.phones[0].text}</a>
+    <a class="callbtn" href={SITE.phones[0].href} aria-label={`Позвонить ${SITE.phones[0].text}`}>☎</a>
     <a class="cartbtn" href={u(R.cart)} aria-label="Заявка">Заявка <CartBadge client:idle /></a>
     <button class="burger" type="button" aria-label="Меню" aria-expanded="false" aria-controls="mnav">☰</button>
   </div>

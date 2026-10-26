@@ -1,5 +1,5 @@
 // Корзина-заявка в браузере: без цен (у источника их нет) – менеджер называет стоимость после заявки.
-export interface CartItem { uid: string; title: string; url: string; photo: string; color: string; qty: number; ribbon: string }
+export interface CartItem { uid: string; title: string; url: string; photo: string; color: string; qty: number; ribbon: string; sku: string; category: string }
 
 const KEY = 'rz_cart';
 export const CART_EVENT = 'rz-cart';

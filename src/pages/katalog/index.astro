@@ -6,7 +6,7 @@ import LeadSection from '../../components/LeadSection.astro';
 import { PRODUCTS } from '../../lib/catalog';
 import { SECTIONS } from '../../lib/site';
 ---
-<Base title="Каталог ритуальных венков, корзин и композиций – Розалия, Сергиев Посад"
+<Base title="Каталог ритуальных венков и корзин – Сергиев Посад"
   description={`Каталог производителя: ${PRODUCTS.length} моделей – ритуальные венки 90–140 см, плетёные корзины и композиции в горшках. Опт и розница, лента с надписью, доставка.`}>
   <Crumbs items={[{ name: 'Каталог' }]} />
   <section class="sec--tight"><div class="wrap">
@@ -15,6 +15,7 @@ import { SECTIONS } from '../../lib/site';
     <div class="chips" style="margin-top:16px">{SECTIONS.map((s) => <a class="chip" href={`./${s.slug}/`}>{s.name}</a>)}</div>
   </div></section>
   <section class="sec--tight"><div class="wrap">
+    <h2>Все модели</h2>
     <Catalog products={PRODUCTS} by="sec" chips={SECTIONS.map((s) => ({ key: s.slug, name: s.short }))} />
   </div></section>
   <LeadSection title="Не нашли нужное?" text="Изготовим венок, корзину или композицию по фотографии, эскизу или вашим параметрам. Опишите задачу – подберём и назовём срок." />
