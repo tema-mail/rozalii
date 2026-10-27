@@ -1,10 +1,12 @@
 /**
- * Снимок магазина rozalii.ru из API Тильды → public/_store/data.js (window.__RZ_STORE).
+ * Снимок магазина rozalii.ru из API Тильды → src/data/store-snapshot.json. Сайт отдаёт его каталогу как
+ * /_store/data.js (window.__RZ_STORE) – src/pages/_store/data.js.ts накладывает поверх правки админки
+ * (src/data/products.json, parts.json), поэтому новый снимок правок не затирает.
  * API отдаёт каталог только своему домену («Catalog is configured for another domain»), поэтому копия
  * берёт товары из снимка, а public/tilda-store-local.js отвечает скриптам каталога Тильды вместо API.
  *   node scripts/store-snapshot.mjs
  */
-import { mkdirSync, writeFileSync } from 'node:fs';
+import { writeFileSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -43,7 +45,6 @@ for (const uid of ROOTS) {
   roots[uid] = { head, order: ps.map((p) => String(p.uid)), orders, filters };
   console.log(`раздел ${uid}: ${total} товаров, порядков снято ${Object.keys(roots[uid].orders).length}`);
 }
-mkdirSync(join(ROOT, 'public/_store'), { recursive: true });
-writeFileSync(join(ROOT, 'public/_store/data.js'),
-  `/* снимок магазина rozalii.ru ${new Date().toISOString().slice(0, 10)} – scripts/store-snapshot.mjs */\nwindow.__RZ_STORE=${JSON.stringify({ products, roots })};\n`);
+writeFileSync(join(ROOT, 'src/data/store-snapshot.json'),
+  JSON.stringify({ date: new Date().toISOString().slice(0, 10), products, roots }));
 console.log(`товаров всего: ${Object.keys(products).length}`);
