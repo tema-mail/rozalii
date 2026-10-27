@@ -279,7 +279,7 @@ function Report({ d, busy, error, reload }: { d: R; busy: boolean; error: string
           <OldNote at={old(`periods.${per}.summary`)} />
           {P.summary ? <Kpis s={P.summary} /> : <Missing />}
           <Panel title="Каналы: откуда приходят и кто отправляет формы" old={old(`periods.${per}.channels`)}
-            sub={`Визиты и отправки форм по каналам. Заявки – цель Метрики «${r.lead_label}»: окна согласия на cookie на сайте нет, Метрика видит всех; все заявки сайта – во вкладке «Заявки».`}>
+            sub={`Визиты и отправки форм по каналам. Заявки – цель Метрики «${r.lead_label}»: плашка про cookie на сайте есть, но Метрику не отключает – она видит всех; все заявки сайта – во вкладке «Заявки».`}>
             <Legend items={BARS} />
             {P.channels ? <Channels rows={P.channels} /> : <Missing />}
           </Panel>

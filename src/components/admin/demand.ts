@@ -35,13 +35,19 @@ const norm = (s: string) => s.toLowerCase().replace(/[«»“”"'’]/g, '').re
 /** срез за период: достаточно товаров; входы на карточки, динамика и фразы – если есть */
 export type Slice = Pick<Metrika, 'products'> & Partial<Metrika>;
 
+/** Название товара в таблицах: у одноимённых («Амур» в 90 и 110 см) – с подразделом, иначе строки не различить. */
+const dupes = new Set(allProducts.map((p) => norm(p.title)).filter((t, i, a) => a.indexOf(t) !== i));
+const subOf = (p: Product) => allSections.find((s) => s.name.includes(' › ') && s.uids.includes(p.uid))?.name.split(' › ')[1];
+export const label = (p: Product) => (dupes.has(norm(p.title)) && subOf(p) ? `${p.title} · ${subOf(p)}` : p.title);
+
 export function demand(m: Slice) {
   const byTitle = new Map(allProducts.map((p) => [norm(p.title), p]));
   const byId = new Map(allProducts.map((p) => [p.uid, p]));
   const rows = (m.products.rows ?? []).filter((r) => !/доставка/i.test(r.dims[0]));
   const list: Demand[] = rows.map((r) => {
     const [views, baskets, qty, revenue] = r.m;
-    return { p: (r.dims[1] ? byId.get(r.dims[1]) : null) ?? byTitle.get(norm(r.dims[0])) ?? null, title: r.dims[0], views, baskets, qty, revenue, conv: views ? qty / views : 0, abc: '–', segment: '', entries: 0, entriesSearch: 0 };
+    const p = (r.dims[1] ? byId.get(r.dims[1]) : null) ?? byTitle.get(norm(r.dims[0])) ?? null;
+    return { p, title: p ? label(p) : r.dims[0], views, baskets, qty, revenue, conv: views ? qty / views : 0, abc: '–', segment: '', entries: 0, entriesSearch: 0 };
   });
   /* ABC по выручке; цен на сайте нет – по числу заказанных штук */
   const total = list.reduce((s, d) => s + d.revenue, 0);

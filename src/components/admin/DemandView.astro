@@ -3,7 +3,7 @@
     те же классы mk-* (плитки, панели, таблицы, переключатели), стили приходят с разметкой EV на странице.
     Перенос с ALEX KROWN (src/v1/admin/DemandView.astro). Данные – стенд src/data/stand/demand.json (scripts/stand-metrika.py),
     расчёты – demand.ts. Сравнение – DemandCompare.astro. */
-import { demand, productSearch, type Slice } from './demand';
+import { demand, label, productSearch, type Slice } from './demand';
 import { allProducts } from '../../lib/catalog';
 interface Props { slice: Slice & { date1: string; date2: string }; period: string; collectedAt: string }
 const { slice, period, collectedAt } = Astro.props;
@@ -80,7 +80,7 @@ const link = (p: { path: string } | null, title: string) => (p ? `<a href="${v1(
       <table>
         <thead><tr><th>Товар</th><th>Всего</th><th>Поиск</th><th>Прямые</th><th>Соцсети</th><th>Реклама</th><th>Внутренние и другие</th></tr></thead>
         <tbody>
-          {d.entries.slice(0, 25).map((e) => <tr><td set:html={link(e.p, e.p?.title ?? `товар № ${e.uid} (нет в каталоге)`)} /><td><b>{e.all}</b></td><td>{e.search || ''}</td><td>{e.direct || ''}</td><td>{e.social || ''}</td><td>{e.ads || ''}</td><td>{e.other || ''}</td></tr>)}
+          {d.entries.slice(0, 25).map((e) => <tr><td set:html={link(e.p, (e.p ? label(e.p) : `товар № ${e.uid} (нет в каталоге)`))} /><td><b>{e.all}</b></td><td>{e.search || ''}</td><td>{e.direct || ''}</td><td>{e.social || ''}</td><td>{e.ads || ''}</td><td>{e.other || ''}</td></tr>)}
           {!d.entries.length && <tr><td colspan="7" class="mk-muted">Входов на карточки за период нет</td></tr>}
         </tbody>
       </table>

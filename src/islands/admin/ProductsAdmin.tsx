@@ -252,7 +252,8 @@ export default function ProductsAdmin({ items, parts: initParts, base }: { items
             <input type="search" placeholder="Название или артикул" value={q} onInput={(e) => setQ((e.target as HTMLInputElement).value)} />
             <select value={sort} onChange={(e) => setSort((e.target as HTMLSelectElement).value)} aria-label="Сортировка">
               <option value="site">Как на сайте</option><option value="name">По названию</option>
-              <option value="price-asc">Сначала дешевле</option><option value="price-desc">Сначала дороже</option>
+              {/* цен у товаров rozalii пока нет – сортировка по цене появится вместе с ними */}
+              {list.some((p) => p.price != null) && <><option value="price-asc">Сначала дешевле</option><option value="price-desc">Сначала дороже</option></>}
             </select>
             <button class="btn" onClick={() => setCsv(true)}>⇪ Импорт CSV</button>
             <a class="btn" href={csvHref(raw, flat, (typeof location !== 'undefined' ? location.origin : '') + base)} download="rozalii-products.csv">⇩ Экспорт CSV</a>
