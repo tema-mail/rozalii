@@ -1,10 +1,12 @@
-# Розалия (rozalii.ru) – перенос с Тильды на Astro
+# Розалия (rozalii.ru) – точная копия Тильды
 
 Производство ритуальных венков, Сергиев Посад; опт и розница. Показ: https://tema-mail.github.io/rozalii/ (noindex).
 
-- Данные: `npm run data` – scripts/build-data.py (товары и фото из docs/source → src/data/catalog.json, public/img) и opt-data.py (демо кабинета оптовика public/opt).
-- Карта сайта и 301 – docs/karta-sayta.md; старые адреса – src/lib/legacy.ts (Pages – страницы-переадресации, бой – /redirects.json).
-- Цен у источника нет: «цена по запросу», корзина = заявка. Заявки без PUBLIC_LEAD_URL – тестовый стенд (только в браузере).
-- Юр. тексты – черновики с Тильды, пробелы видны плашками; долги – docs/yur-dolgi.md. Решения и вопросы – docs/РЕШЕНИЯ.md.
-- Сборка: `PUBLIC_SITE_URL=https://tema-mail.github.io PUBLIC_BASE=/rozalii PUBLIC_NOINDEX=1 npx astro build`.
-- Стандарты – скилл site-lead; в бой только по слову владельца.
+Владелец 27.10.2026: «полную точную копию тильды не придумывая, не исправляя, прям как есть – цвета, товары, порядок товаров, все функции, поиск, подкатегории». Улучшения – только после копии и по его слову.
+
+- Страницы: `npm run port` – scripts/tilda-port.mjs (образец balance-fit): HTML и скрипты Тильды как есть, ресурсы → public/_t/, вырезаны только счётчики. Данные – src/data/pages/*.json, маршрут src/pages/[...slug].astro.
+- Магазин: API Тильды отдаёт товары только домену rozalii.ru. `node scripts/store-snapshot.mjs` снимает товары, подкатегории и точный порядок для каждой пары «подкатегория × сортировка» → public/_store/data.js; public/tilda-store-local.js отвечает каталогу Тильды вместо API.
+- Заявки и заказы не уходят (public/no-leads.js) – приёмник решает владелец.
+- Сверка с оригиналом: `NEW=http://127.0.0.1:4795/rozalii node scripts/verify.mjs` → docs/СВЕРКА.md. Телефон проверять профилем iPhone, а не узким окном с десктопным UA (Тильда считает ширину по-разному).
+- Прежняя версия «по карте сайта с ЧПУ» – ветка `v-kod-po-karte`. Демо кабинета оптовика – public/opt (`python3 scripts/opt-data.py`).
+- Сборка: `PUBLIC_SITE_URL=https://tema-mail.github.io PUBLIC_BASE=/rozalii npx astro build`.
