@@ -84,7 +84,10 @@ function toRaw(p: Product, base: Raw | undefined): Raw {
   // вариант Тильды – снятый объект с правками (у товара без вариантов Тильда отдаёт один вариант – сам товар)
   const was = new Map<string, Raw>((base?.editions || []).map((e: Raw) => [String(e.uid), e]));
   // товар без вариантов у Тильды – один вариант, сам товар
-  const eds = p.editions.length ? p.editions : [{ id: p.id, sku: p.sku, price: p.price, priceOld: p.priceOld, img: p.images[0] || '', opts: {} }];
+  // у товара без вариантов цена и артикул – у самого товара (их правит админка), вариант Тильды их повторяет:
+  // корзина и карточка Тильды показывают цену варианта (приёмка 28.10: цена 4321 сохранилась, но на сайте не видна)
+  const one = p.editions.length < 2;
+  const eds = one ? [{ id: p.editions[0]?.id ?? p.id, sku: p.sku, price: p.price, priceOld: p.priceOld, img: p.editions[0]?.img ?? p.images[0] ?? '', opts: p.editions[0]?.opts ?? {} }] : p.editions;
   if (eds.length) raw.editions = eds.map((e) => {
     const o: Raw = structuredClone(was.get(e.id) || { uid: Number(e.id), externalid: e.id, quantity: '' });
     const w = was.get(e.id);

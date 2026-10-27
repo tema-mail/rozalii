@@ -23,7 +23,8 @@ function patchVar(body: string, p: Product, fresh: boolean): string {
     });
     if (!imagesSame) o.gallery = p.images.map((img) => ({ img: abs(img) }));
     const was = new Map<string, any>((o.editions || []).map((e: any) => [String(e.uid), e]));
-    o.editions = (p.editions.length ? p.editions : [{ id: p.id, sku: p.sku, price: p.price, priceOld: p.priceOld, img: p.images[0] || '', opts: {} }])
+    // товар без вариантов – один вариант с ценой и артикулом товара (их правит админка), как в src/lib/catalog.ts
+    o.editions = (p.editions.length >= 2 ? p.editions : [{ id: p.editions[0]?.id ?? p.id, sku: p.sku, price: p.price, priceOld: p.priceOld, img: p.editions[0]?.img ?? '', opts: p.editions[0]?.opts ?? {} }])
       .map((e) => ({ ...(was.get(e.id) || { uid: Number(e.id), externalid: e.id, quantity: '' }), sku: e.sku, price: money(e.price), priceold: money(e.priceOld), img: e.img ? abs(e.img) : '', ...e.opts }));
     return `var product = ${JSON.stringify(o)};${sp}`;
   });
