@@ -1,0 +1,141 @@
+---
+// Страницы сайта по сущностям – перенос кабинета-стандарта Milovini (эталон Elite Rose, src/pages/admin/index.astro):
+// Главная, Каталоги (раскрываются – внутри разделы и карточки товара), Услуги, Внутренние, Юридические.
+// Группы сворачиваются, состояние помнится (правило владельца 24.10.2026, образец EV SIBIR admin.py GROUPS_JS).
+// Список страниц – из перенесённых с Тильды src/data/pages, товары – из src/data/products.json (правит админка).
+import Admin from '../../layouts/Admin.astro';
+import { allProducts, inPart, parts, partIds, type Part, type Product } from '../../lib/catalog';
+import { u } from '../../lib/url';
+
+type Page = { path: string; head?: string; redirect?: string };
+const files = Object.values(import.meta.glob<Page>('../../data/pages/*.json', { eager: true, import: 'default' }));
+const titleOf = (path: string) => files.find((f) => f.path === path)?.head?.match(/<title>([^<]*)<\/title>/)?.[1].trim() || '';
+const site = (p: string) => new URL(u(p), Astro.site).href;
+// Карточка страницы (scripts/page-cards.py, как у EV SIBIR): /admin/page/<адрес страницы>/
+const card_ = (path: string) => u('/admin/page' + (path === '/' ? '/' : path.replace(/\/?$/, '/')));
+const row = (name: string, path: string) => ({ name, path, title: titleOf(path.replace(/^\//, '')) });
+
+const catalogs = [
+  { name: 'Ритуальные венки', path: '/catalog/ritual_wreaths', part: '634569741283' },
+  { name: 'Ритуальные корзины', path: '/catalog/ritual_baskets', part: '682128127473' },
+  { name: 'Горшки', path: '/catalog/pot', part: '840602458883' },
+];
+const services = [
+  row('Дополнительные услуги', '/additional_services'),
+  row('Оформление зала прощания', '/additional_services/farewell_hall'),
+  row('Доставка и возложение венков к памятной дате', '/additional_services/the_memorable_date'),
+  row('Доставка венков к месту прощания', '/additional_services/to_the_place_of_farewell'),
+];
+const inner = [row('О компании', '/about'), row('Доставка и оплата', '/deliveri'), row('Контакты', '/contact'), row('Корпоративным клиентам', '/corparate')];
+const legal = [row('Политика конфиденциальности', '/policy'), row('Пользовательское соглашение', '/agreement')];
+const visible = allProducts.filter((p) => !p.hidden).length;
+const total = 1 + 1 + catalogs.length + visible + services.length + inner.length + legal.length;
+const thumb = (p: Product) => p.images[0] || '';
+const price = (p: Product) => (p.price == null ? 'цена не указана' : p.price.toLocaleString('ru-RU') + ' ₽');
+const flat = (ps: Part[], d = 0): { p: Part; d: number }[] => ps.flatMap((p) => [{ p, d }, ...flat(p.children, d + 1)]);
+const sections = flat(parts);
+const T = 'https://static.tildacdn.com/';
+---
+<Admin title="Страницы сайта" active="pages" count={allProducts.length}>
+  <style is:global>
+    .pgroup{display:flex;align-items:center;gap:6px;width:100%;border:0;border-top:1px solid #eceeed;text-align:left;cursor:pointer;font-family:inherit}
+    .pgroup::before{content:'';display:inline-block;border-left:5px solid #55605d;border-top:4px solid transparent;border-bottom:4px solid transparent;transform:rotate(90deg);transition:transform .15s}
+    .pgrp.shut .pgroup::before{transform:none}
+    .pgrp.shut>:not(.pgroup){display:none}
+  </style>
+  <div class="tools">
+    <h1>Страницы сайта</h1>
+    <span class="muted">{total} страниц · из них {visible} карточек товара{allProducts.length > visible && ` (ещё ${allProducts.length - visible} скрыто)`}</span>
+    <a class="btn" href={u('/')} target="_blank">Открыть сайт ↗</a>
+  </div>
+  <div class="pages">
+    <div class="phead"><span></span><span>Страница</span><span>Адрес</span><span style="text-align:right">Сущность</span></div>
+
+    <section class="pgrp" data-g="home">
+      <button type="button" class="pgroup">Главная <span>1</span></button>
+      <div class="prow">
+        <span></span>
+        <div><a class="pname pcard" href={card_('/')}>Главная</a><div class="muted" style="font-size:12px">{titleOf('')}</div></div>
+        <a class="purl" href={u('/')} target="_blank">{site('/')}</a>
+        <span class="pkind">Главная</span>
+      </div>
+    </section>
+
+    <section class="pgrp" data-g="catalogs">
+      <button type="button" class="pgroup">Каталоги <span>{1 + catalogs.length} · {visible} карточек товара</span></button>
+      <details class="pcat">
+        <summary class="prow">
+          <span></span>
+          <div><span class="pname"><i class="caret"></i><a class="pcard" href={card_('/catalog')} onclick="event.stopPropagation()">Общий каталог</a></span><div class="muted" style="font-size:12px">{allProducts.length} товаров · {sections.length} разделов</div></div>
+          <a class="purl" href={u('/catalog')} target="_blank" onclick="event.stopPropagation()">{site('/catalog')}</a>
+          <span class="pkind">Каталог</span>
+        </summary>
+        {sections.map(({ p: pt, d }) => (
+          <div class="prow lvl1">
+            <span></span>
+            <div><span class="pname" style={d ? `padding-left:${22 + d * 18}px` : ''}>Раздел «{pt.title}»</span><div class="muted" style="font-size:12px">{allProducts.filter((p) => inPart(p, pt.id)).length} товаров</div></div>
+            <span class="purl muted">фильтр каталога</span>
+            <span class="pkind">Раздел каталога</span>
+          </div>
+        ))}
+      </details>
+      {catalogs.map((c) => {
+        const list = allProducts.filter((p) => inPart(p, c.part));
+        const subs = sections.filter(({ p }) => p.id !== c.part && partIds(c.part).has(p.id));
+        return (
+          <details class="pcat">
+            <summary class="prow">
+              <span></span>
+              <div><span class="pname"><i class="caret"></i><a class="pcard" href={card_(c.path)} onclick="event.stopPropagation()">Каталог «{c.name}»</a></span><div class="muted" style="font-size:12px">{list.length} товаров{subs.length > 0 && ` · подразделы: ${subs.map(({ p }) => p.title).join(', ')}`}</div></div>
+              <a class="purl" href={u(c.path)} target="_blank" onclick="event.stopPropagation()">{site(c.path)}</a>
+              <span class="pkind">Каталог</span>
+            </summary>
+            {list.map((p) => (
+              <div class="prow lvl1">
+                {thumb(p) ? <img class="thumb" src={thumb(p)} alt="" loading="lazy" /> : <span></span>}
+                <div><span class="pname">{p.hidden ? p.title : <a class="pcard" href={card_(p.path)}>{p.title}</a>}{p.hidden && <span class="chip" style="margin-left:8px">скрыт</span>}</span><div class="muted" style="font-size:12px">{price(p)}{p.sku && ` · ${p.sku}`}</div></div>
+                <a class="purl" href={u(p.path)} target="_blank">{p.path}</a>
+                <span class="pkind">Карточка товара</span>
+              </div>
+            ))}
+          </details>
+        );
+      })}
+    </section>
+
+    <section class="pgrp" data-g="services">
+      <button type="button" class="pgroup">Услуги <span>{services.length}</span></button>
+      {services.map((t) => (
+        <div class="prow"><span></span><div><a class="pname pcard" href={card_(t.path)}>{t.name}</a><div class="muted" style="font-size:12px">{t.title}</div></div><a class="purl" href={u(t.path)} target="_blank">{site(t.path)}</a><span class="pkind">Страница</span></div>
+      ))}
+    </section>
+
+    <section class="pgrp" data-g="inner">
+      <button type="button" class="pgroup">Внутренние страницы <span>{inner.length}</span></button>
+      {inner.map((t) => (
+        <div class="prow"><span></span><div><a class="pname pcard" href={card_(t.path)}>{t.name}</a><div class="muted" style="font-size:12px">{t.title}</div></div><a class="purl" href={u(t.path)} target="_blank">{site(t.path)}</a><span class="pkind">Страница</span></div>
+      ))}
+    </section>
+
+    <section class="pgrp" data-g="legal">
+      <button type="button" class="pgroup">Юридические страницы <span>{legal.length}</span></button>
+      {legal.map((t) => (
+        <div class="prow"><span></span><div><a class="pname pcard" href={card_(t.path)}>{t.name}</a><div class="muted" style="font-size:12px">{t.title}</div></div><a class="purl" href={u(t.path)} target="_blank">{site(t.path)}</a><span class="pkind">Юридическая</span></div>
+      ))}
+    </section>
+  </div>
+  <script is:inline>
+    (function () {
+      var K = 'rz_admin_groups', shut = {};
+      try { shut = JSON.parse(localStorage.getItem(K) || '{}'); } catch (e) {}
+      document.querySelectorAll('.pgrp').forEach(function (g) {
+        var key = g.getAttribute('data-g');
+        if (shut[key]) g.classList.add('shut');
+        g.querySelector('.pgroup').addEventListener('click', function () {
+          shut[key] = g.classList.toggle('shut');
+          try { localStorage.setItem(K, JSON.stringify(shut)); } catch (e) {}
+        });
+      });
+    })();
+  </script>
+</Admin>
