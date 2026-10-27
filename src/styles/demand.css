@@ -1,0 +1,60 @@
+/* Стили «Товарного спроса» – разметка EV SIBIR (server/metrika_view.py, CSS) через ALEX KROWN, без правок. */
+
+.mk{max-width:1160px;margin:0 auto;display:grid;grid-template-columns:minmax(0,1fr);gap:14px;
+ --vis:#0b7a74;--vis-soft:#cfe7e4;--lead:#e07b1a;--prev:#a8afac;--good:#1a7f37;--bad:#c4302b;--line:#dfe4e3;--muted:#646b68}
+.mk>*,.mk-bar>*{min-width:0}
+.mk-bar{display:flex;flex-wrap:wrap;align-items:center;gap:12px 16px}
+.mk-bar h1{margin:0;font-size:22px;font-weight:600}
+.mk-muted{color:var(--muted);font-size:13px}
+.mk-fresh{display:flex;align-items:center;gap:10px;margin-left:auto}
+.mk-btn{font:inherit;font-weight:600;border:0;border-radius:8px;background:#ffd43b;color:#1e1e1e;padding:8px 16px;cursor:pointer}
+.mk-btn[disabled]{opacity:.6;cursor:progress}
+.mk-per{display:flex;flex-wrap:wrap;gap:10px;align-items:stretch}
+.mk-per div{background:#fff;border:1px solid var(--line);border-radius:10px;padding:10px 14px;display:grid;gap:2px}
+.mk-per div.now{box-shadow:inset 3px 0 0 var(--vis)}
+.mk-per small{color:var(--muted);font-size:12px}.mk-per b{font-size:17px;font-weight:600;font-variant-numeric:tabular-nums}
+.mk-per .vs{align-self:center;color:var(--muted);font-size:13px}
+.mk-modes{display:inline-flex;max-width:100%;overflow-x:auto;border:1px solid var(--line);border-radius:8px;background:#fff}
+.mk-modes a{padding:7px 14px;color:#1e1e1e;text-decoration:none;border-right:1px solid var(--line);white-space:nowrap}
+.mk-modes a:last-child{border-right:0}.mk-modes a.on{background:#ffd43b;font-weight:600}
+.mk-switch{display:inline-flex;gap:4px;padding:4px;border-radius:10px;background:#e6ebe9;max-width:100%;overflow-x:auto}
+.mk-switch a{padding:9px 20px;border-radius:7px;color:#1e1e1e;text-decoration:none;font-weight:500;white-space:nowrap}
+.mk-switch a.on{background:#0b4442;color:#fff;font-weight:600}
+.mk-warn{background:#fff3cd;border:1px solid #f0d48a;border-radius:10px;padding:10px 14px;font-size:13px;line-height:1.5}
+.mk-err{background:#fdecea;border:1px solid #f3c1bd;border-radius:10px;padding:14px 18px;font-size:13px;line-height:1.5}
+.mk-note{background:#fffaf0;border:1px solid #f0d9a8;border-radius:10px;padding:14px 18px;font-size:13px;line-height:1.5}
+.mk-kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.mk-kpi{background:#fff;padding:14px 16px;display:grid;gap:4px;align-content:start}
+.mk-kpi b{font-size:24px;font-weight:600;font-variant-numeric:tabular-nums}.mk-kpi.main b{color:var(--lead)}
+.mk-d{font-size:12px;font-weight:500;font-variant-numeric:tabular-nums;color:var(--muted)}
+.mk-d.up{color:var(--good)}.mk-d.down{color:var(--bad)}
+.mk .panel{margin:0;min-width:0}
+.mk .panel h2{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:4px}
+.mk-sub{margin:0 0 14px;color:var(--muted);font-size:13px;line-height:1.45;max-width:72ch}
+.mk-leg{display:flex;flex-wrap:wrap;gap:14px;font-size:12px;color:var(--muted);margin-bottom:8px}
+.mk-leg i{display:inline-block;width:12px;height:10px;border-radius:2px;margin-right:6px;vertical-align:-1px}
+.mk-ch{display:grid;grid-template-columns:minmax(120px,190px) minmax(0,1fr) minmax(0,.8fr) 90px;gap:6px 14px;align-items:center;font-variant-numeric:tabular-nums}
+.mk-ch .h{color:var(--muted);font-size:12px;padding-bottom:4px;border-bottom:1px solid var(--line)}
+.mk-tr{display:flex;align-items:center;gap:8px;min-width:0;font-size:12px}
+.mk-tr span{height:16px;border-radius:3px;flex:none}
+.mk-tr em{font-style:normal;white-space:nowrap}.mk-tr em small{color:var(--muted)}
+.mk-ch .r{text-align:right}
+.mk-hb{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:7px 12px;align-items:center;font-variant-numeric:tabular-nums}
+.mk-hb .p{font-size:13px;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.mk-hb .p a{color:inherit}
+.mk-grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,460px),1fr));gap:14px}
+.mk-wrap{overflow-x:auto}
+.mk table{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums;font-size:14px}
+.mk th{text-align:right;font-weight:500;font-size:12px;color:var(--muted);background:#f7f8f6;padding:8px 10px;border-bottom:1px solid var(--line);white-space:nowrap}
+.mk td{text-align:right;padding:9px 10px;border-bottom:1px solid var(--line);white-space:nowrap}
+.mk th:first-child,.mk td:first-child{text-align:left}.mk td:first-child{white-space:normal;min-width:170px}
+.mk .heat td.c{text-align:center}
+.mk svg text{fill:#646b68;font-size:11px;font-family:inherit}
+.mk-src{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:12px;margin-bottom:14px}
+.mk-src>div{border:1px solid var(--line);border-radius:10px;padding:12px 14px;display:grid;gap:8px}
+.mk-src header{font-weight:600}
+.mk-mini{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}
+.mk-mini div{display:grid;gap:2px}.mk-mini small{color:var(--muted);font-size:11px}.mk-mini b{font-size:16px;font-variant-numeric:tabular-nums}
+@media (max-width:720px){.mk-ch{grid-template-columns:minmax(0,1fr) 80px}.mk-ch .h.hv,.mk-ch .h.hl{display:none}
+ .mk-ch .n{grid-column:1/-1;padding-top:6px}.mk-ch .r{grid-row:span 2}.mk-hb{grid-template-columns:minmax(0,1fr)}}
+@media (max-width:640px){.mk-fresh{margin-left:0;width:100%;justify-content:space-between}.mk-kpi b{font-size:20px}.mk-kpis{grid-template-columns:repeat(2,minmax(0,1fr))}}

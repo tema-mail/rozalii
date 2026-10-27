@@ -1,13 +1,74 @@
 ---
-/** Админка → «Метрика и каналы» – экран кабинета-стандарта (gaz-mag ← TEYES Sibir) на стендовых цифрах
-    (scripts/stand-metrika.py → src/data/stand/metrika.json). Стили привязаны к обёртке .mx: замок кабинета подменяет
-    содержимое body. */
+/** Админка → Метрика. Верхний уровень (владелец 17.10.2026, ALEX KROWN): «Метрика и каналы» и «Товарный спрос» – у каждого
+    свои «Показатели | Сравнение». «Метрика и каналы» – экран кабинета-стандарта (gaz-mag ← TEYES Sibir), «Товарный спрос» –
+    DemandView / DemandCompare с ALEX KROWN. Пока на стендовых цифрах (scripts/stand-metrika.py → src/data/stand/*.json):
+    счётчик rozalii.ru 113737961 поставлен 22.10.2026. Стили привязаны к обёрткам .mx и .mk: замок кабинета подменяет body. */
 import Admin from '../../layouts/Admin.astro';
 import Metrika from '../../islands/admin/Metrika';
+import DemandView from '../../components/admin/DemandView.astro';
+import DemandCompare from '../../components/admin/DemandCompare.astro';
 import { allProducts } from '../../lib/catalog';
 import stand from '../../data/stand/metrika.json';
+import dm from '../../data/stand/demand.json';
 import '../../styles/metrika.css';
+import '../../styles/demand.css';
 ---
-<Admin title="Метрика и каналы" active="metrika" count={allProducts.filter((p) => !p.archived).length}>
-  <div class="mx"><div class="mx-main"><Metrika client:load data={stand} /></div></div>
+<Admin title="Метрика" active="metrika" count={allProducts.filter((p) => !p.archived).length}>
+  <nav class="mk-top" aria-label="Раздел"><a href="/admin/metrika?v=ind" data-sec="mk" class="on">Метрика и каналы</a><a href="/admin/metrika?s=demand&v=ind" data-sec="dm">Товарный спрос</a></nav>
+  <div class="mk-view" data-view="mk"><div class="mx"><div class="mx-main"><Metrika client:load data={stand} /></div></div></div>
+  {Object.entries(dm.periods).map(([k, p]) => (
+    <div class="mk-view" data-view={`dm:ind:${k}`} hidden>
+      <p class="demo-note dm-note">Пример раздела на стендовых цифрах: какие венки смотрят и заказывают. Настоящие данные придут из электронной коммерции Метрики (её шлёт корзина Тильды), когда счётчик накопит историю.</p>
+      <DemandView slice={p as any} period={k} collectedAt={dm.collectedAt} />
+    </div>
+  ))}
+  {Object.entries(dm.modes).map(([k, md]) => (
+    <div class="mk-view" data-view={`dm:cmp:${k}`} hidden>
+      <p class="demo-note dm-note">Пример раздела на стендовых цифрах – сравнение периодов.</p>
+      <DemandCompare mode={md as any} modeKey={k} collectedAt={dm.collectedAt} />
+    </div>
+  ))}
 </Admin>
+
+<style is:global>
+  .mk-top{display:flex;gap:4px;max-width:1160px;margin:0 auto 16px;padding:4px;border-radius:12px;background:#1c201f;overflow-x:auto}
+  .mk-top a{flex:1;text-align:center;padding:11px 18px;border-radius:9px;color:rgba(255,255,255,.75);text-decoration:none;font-size:15px;font-weight:500;white-space:nowrap}
+  .mk-top a.on{background:#fff;color:#1c201f;font-weight:600}
+  .dm-note{max-width:1160px;margin:0 auto 14px}
+</style>
+
+<script is:inline>
+  // Ссылки ведут на /admin/metrika?[s=demand&]v=…&p=…|c=… – все вкладки уже на странице, показываем нужную (как у ALEX KROWN).
+  // «Метрика и каналы» – свой остров со своими вкладками; «Товарный спрос» – ключи dm:ind:<период>, dm:cmp:<режим>.
+  (function () {
+    function keyOf(q) {
+      if (q.get('s') !== 'demand') return 'mk';
+      return 'dm:' + (q.get('v') === 'cmp' || (!q.get('v') && q.get('c')) ? 'cmp:' + (q.get('c') || 'yoy') : 'ind:' + (q.get('p') || 'month'));
+    }
+    function show(key) {
+      var views = document.querySelectorAll('.mk-view');
+      if (![].some.call(views, function (v) { return v.dataset.view === key; })) return false;
+      views.forEach(function (v) { v.hidden = v.dataset.view !== key; });
+      var sec = key.indexOf('dm:') === 0 ? 'dm' : 'mk';
+      document.querySelectorAll('.mk-top a').forEach(function (a) { a.classList.toggle('on', a.dataset.sec === sec); });
+      return true;
+    }
+    show(keyOf(new URLSearchParams(location.search)));
+    document.addEventListener('click', function (e) {
+      var a = e.target.closest && e.target.closest('a');
+      var href = (a && a.getAttribute('href')) || '';
+      if (href.indexOf('/admin/metrika') === 0) {
+        e.preventDefault();
+        var q = new URLSearchParams(href.split('?')[1] || '');
+        if (show(keyOf(q))) history.replaceState(null, '', '?' + q.toString());
+      }
+    });
+    // «Обновить» у «Товарного спроса» – у кабинета на Pages сервера нет, цифры – стенд
+    document.addEventListener('submit', function (e) {
+      if (!e.target.classList || !e.target.classList.contains('mk-refresh')) return;
+      e.preventDefault();
+      var bar = e.target.closest('.mk-bar');
+      if (bar && !bar.parentElement.querySelector('.mk-later')) bar.insertAdjacentHTML('afterend', '<div class="mk-note mk-later">Сейчас здесь стенд. Когда раздел переключится на настоящую Метрику, кнопка будет собирать свежие цифры.</div>');
+    });
+  })();
+</script>
