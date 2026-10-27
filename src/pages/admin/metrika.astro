@@ -1,0 +1,13 @@
+---
+/** Админка → «Метрика и каналы» – экран кабинета-стандарта (gaz-mag ← TEYES Sibir) на стендовых цифрах
+    (scripts/stand-metrika.py → src/data/stand/metrika.json). Стили привязаны к обёртке .mx: замок кабинета подменяет
+    содержимое body. */
+import Admin from '../../layouts/Admin.astro';
+import Metrika from '../../islands/admin/Metrika';
+import { allProducts } from '../../lib/catalog';
+import stand from '../../data/stand/metrika.json';
+import '../../styles/metrika.css';
+---
+<Admin title="Метрика и каналы" active="metrika" count={allProducts.filter((p) => !p.archived).length}>
+  <div class="mx"><div class="mx-main"><Metrika client:load data={stand} /></div></div>
+</Admin>
