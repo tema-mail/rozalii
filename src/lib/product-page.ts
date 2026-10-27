@@ -2,13 +2,13 @@
 // его перезаписывает npm run port), поэтому правки накладываются при сборке, а не в файл: данные товара в скрипте
 // страницы (var product – из него Тильда рисует цену, варианты и фото), заголовок H1, title, og:title, description.
 // Новый товар (создан в админке, на Тильде его нет) собирается по карточке соседнего товара того же раздела.
-import { allProducts, productById, snapshot, type Product } from './catalog';
+import { allProducts, imgUrl, productById, snapshot, type Product } from './catalog';
 
 type Page = { path: string; head?: string; body?: string; htmlAttrs?: Record<string, string>; bodyAttrs?: Record<string, string> };
 const ORIGIN = 'https://rozalii.ru';
 const esc = (s: string) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 const money = (n: number | null) => (n == null ? '' : String(n));
-const abs = (img: string) => (/^https?:/.test(img) ? img : ORIGIN + img);
+const abs = imgUrl;
 const idOf = (path: string) => path.match(/tproduct\/(\d+)/)?.[1];
 
 function patchVar(body: string, p: Product, fresh: boolean): string {

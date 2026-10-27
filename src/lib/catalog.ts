@@ -26,6 +26,8 @@ export interface Product {
   images: string[];
   sku: string;
   hidden?: boolean;
+  /** в архиве админки: на сайте не виден (hidden), возвращается из раздела «Архив» */
+  archived?: boolean;
   options: { title: string; values: string[] }[];
   editions: Edition[];
   seoTitle?: string;
@@ -60,7 +62,10 @@ export const snapshot = snapshotJson as unknown as Snapshot;
 const ORIGIN = 'https://rozalii.ru'; // адреса в данных Тильды – с боевого домена, tilda-store-local.js переводит их на копию
 
 const money = (n: number | null) => (n == null ? '' : String(n));
-const abs = (img: string) => (/^https?:/.test(img) ? img : ORIGIN + img);
+// фото из админки лежат на самом сайте (/uploads/…) – адрес с подпапкой показа, а не с боевого домена
+const BASE = (import.meta.env.BASE_URL || '/').replace(/\/$/, '');
+export const imgUrl = (img: string) => (/^https?:/.test(img) ? img : BASE + img);
+const abs = imgUrl;
 
 /** Товар админки → объект товара в формате API Тильды (снятый оригинал + правки). */
 function toRaw(p: Product, base: Raw | undefined): Raw {
@@ -78,7 +83,9 @@ function toRaw(p: Product, base: Raw | undefined): Raw {
   if (p.price == null && base && base.price == null) raw.price = null;
   // вариант Тильды – снятый объект с правками (у товара без вариантов Тильда отдаёт один вариант – сам товар)
   const was = new Map<string, Raw>((base?.editions || []).map((e: Raw) => [String(e.uid), e]));
-  if (p.editions.length) raw.editions = p.editions.map((e) => {
+  // товар без вариантов у Тильды – один вариант, сам товар
+  const eds = p.editions.length ? p.editions : [{ id: p.id, sku: p.sku, price: p.price, priceOld: p.priceOld, img: p.images[0] || '', opts: {} }];
+  if (eds.length) raw.editions = eds.map((e) => {
     const o: Raw = structuredClone(was.get(e.id) || { uid: Number(e.id), externalid: e.id, quantity: '' });
     const w = was.get(e.id);
     Object.assign(o, { sku: e.sku, price: e.price == null && w?.price == null && w ? w.price : money(e.price), priceold: money(e.priceOld), img: e.img ? abs(e.img) : '', ...e.opts });

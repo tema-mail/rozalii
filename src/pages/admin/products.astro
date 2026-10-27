@@ -1,0 +1,11 @@
+---
+// Раздел «Товары» (эталон – Elite Rose, перенос кабинета-стандарта Milovini): все товары магазина, включая скрытые и
+// архив (src/data/products.json), разделы – дерево Тильды (src/data/parts.json). Сохранение – коммитом через GitHub.
+import Admin from '../../layouts/Admin.astro';
+import ProductsAdmin from '../../islands/admin/ProductsAdmin';
+import { allProducts, parts } from '../../lib/catalog';
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+---
+<Admin title="Товары" active="products" count={allProducts.filter((p) => !p.archived).length}>
+  <ProductsAdmin client:load items={allProducts} parts={parts} base={base} />
+</Admin>
