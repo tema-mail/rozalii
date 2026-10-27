@@ -6,7 +6,7 @@ Search Console ему отвечает генератор ниже. Цифры �
 что внутри кабинета». Настоящий счётчик rozalii.ru – 113737961, создан 22.10.2026, данных почти нет; когда они
 накопятся, этот скрипт заменяется на сбор по токену (как у gaz-mag analytics/collect.py).
 
-Запуск: python3 scripts/stand-metrika.py  →  src/data/stand/metrika.json и demand.json («Товарный спрос», форма ALEX KROWN)
+Запуск: python3 scripts/stand-metrika.py  →  src/data/stand/metrika.json, demand.json («Товарный спрос», форма ALEX KROWN) и positions.json («Позиции», форма gaz-mag)
 (в репозитории: данных клиента в них нет).
 """
 from __future__ import annotations
@@ -212,6 +212,59 @@ def demand_slice(a: str, b: str) -> dict:
             "phrases": {"rows": phrases}}
 
 
+# запросы раздела «Позиции»: спрос – настоящий Вордстат 08.09–07.10.2026 (docs/seo/research/wordstat-2026-10-27.json),
+# Москва и область; направление – розница / опт / город
+POS_QUERIES = [("ритуальные венки", 2268, "Венки"), ("траурные венки", 1119, "Венки"), ("венок на кладбище", 778, "Венки"),
+               ("венки ритуальные купить", 673, "Венки"), ("искусственные венки", 489, "Венки"), ("ритуальные венки москва", 288, "Венки"),
+               ("венок из искусственных цветов", 251, "Венки"), ("купить венок ритуальный в москве", 233, "Венки"),
+               ("ритуальные корзины", 302, "Корзины"), ("корзины ритуальные из искусственных", 69, "Корзины"),
+               ("венки оптом", 128, "Опт"), ("ритуальные венки оптом", 19, "Опт"), ("венки оптом от производителя", 17, "Опт"),
+               ("венки сергиев посад", 39, "Сергиев Посад и соседи"), ("ритуальные венки сергиев посад", 9, "Сергиев Посад и соседи"),
+               ("венки пушкино", 90, "Сергиев Посад и соседи"), ("венки мытищи", 76, "Сергиев Посад и соседи"), ("венки хотьково", 13, "Сергиев Посад и соседи")]
+URL_OF = {"Венки": "rozalii.ru/catalog/ritual_wreaths", "Корзины": "rozalii.ru/catalog/ritual_baskets", "Опт": "rozalii.ru/corparate",
+          "Сергиев Посад и соседи": "rozalii.ru/"}
+
+
+def positions(now: dt.datetime) -> dict:
+    """Отчёт «Позиций» в форме gaz-mag (/api/admin/report/positions): снимок выдачи по региону и месяцы Вебмастера / Search Console."""
+    at, was = now.isoformat(timespec="seconds"), (now - dt.timedelta(days=31)).isoformat(timespec="seconds")
+
+    def place(q: str, eng: str, when: str) -> int | None:
+        x = noise("pos", q, eng, when)
+        local = "сергиев" in q or "хотьково" in q
+        if x < (0.15 if local else 0.35):
+            return None  # нет в топ-20
+        return max(1, round((3 if local else 9) + 14 * (x - 0.5) * (0.6 if local else 1)))
+
+    def spot(q: str, eng: str, d: str) -> dict:
+        p, before = place(q, eng, "now"), place(q, eng, "prev")
+        return {"position": p, "depth": 20, "url": f"https://{URL_OF[d]}" if p else None, "at": at, "prev": before, "had_prev": True}
+
+    rows = [{"query": q, "demand": dem, "direction": d, "yandex": spot(q, "yandex", d), "google": spot(q, "google", d)} for q, dem, d in POS_QUERIES]
+    months = []
+    end = dt.date(2026, 10, 26)
+    for eng in ("yandex", "google"):
+        # города Search Console не отдаёт – у Google только «Все», как в эталоне
+        for region, name, k in ((0, "Все", 1.0), (1, "Москва и область", 0.72))[: 2 if eng == "yandex" else 1]:
+            mrows = []
+            for q, dem, d in POS_QUERIES:
+                p = place(q, eng, "now")
+                if p is None:
+                    continue
+                imp = round(dem * k * (0.5 if eng == "google" else 1) * (0.25 + 0.6 * noise("imp", q, eng)))
+                pp = place(q, eng, "prev")
+                mrows.append({"query": q, "position": p + round(noise("f", q) * 9) / 10, "impressions": imp, "clicks": round(imp * min(0.3, 0.32 / p)),
+                              "prev_position": pp, "prev_impressions": round(imp * (0.7 + 0.5 * noise("pi", q))) if pp else None,
+                              "prev_clicks": round(imp * 0.6 * min(0.3, 0.32 / pp)) if pp else None,
+                              "direction": d, "brand": False})
+            mrows.append({"query": "розалия венки", "position": 1.0, "impressions": round(48 * k), "clicks": round(21 * k), "prev_position": 1.2,
+                          "prev_impressions": round(30 * k), "prev_clicks": round(12 * k), "direction": "Бренд", "brand": True})
+            months.append({"engine": eng, "region": region, "name": name, "date_from": (end - dt.timedelta(days=29)).isoformat(), "date_to": end.isoformat(),
+                           "collected_at": at, "prev": {"date_from": (end - dt.timedelta(days=59)).isoformat(), "date_to": (end - dt.timedelta(days=30)).isoformat(), "collected_at": was},
+                           "rows": sorted(mrows, key=lambda r: -r["impressions"]), "gone": []})
+    return {"stand": True, "nsk": {"rows": rows, "measured_from": at, "measured_to": at}, "months": months, "google": None, "yandex": None, "built_at": at}
+
+
 def main() -> None:
     m = mk.Metrika("stand", fetch=lambda url, headers, timeout: json.dumps(answer(url)).encode())
     now = dt.datetime(2026, 10, 28, 4, 0, tzinfo=dt.timezone.utc)
@@ -225,6 +278,7 @@ def main() -> None:
           "modes": {k: {"label": v["label"], "prevLabel": v["prev_label"], "date1": v["date1"], "date2": v["date2"], "prev1": v["prev1"], "prev2": v["prev2"],
                         "now": demand_slice(v["date1"], v["date2"]), "prev": demand_slice(v["prev1"], v["prev2"])} for k, v in report["modes"].items()}}
     (out / "demand.json").write_text(json.dumps(dm, ensure_ascii=False))
+    (out / "positions.json").write_text(json.dumps(positions(now), ensure_ascii=False))
     print("стенд Метрики:", {k: round(v["summary"]["visits"]) for k, v in report["periods"].items()}, "ошибок:", len(report["errors"]))
 
 

@@ -1,0 +1,12 @@
+---
+/** Админка → «Позиции» – экран кабинета gaz-mag (← TEYES Sibir, вид EV SIBIR) без вкладки «Нейросети» (владелец 27.10.2026:
+    «полная, без срезов по ИИ»). Стенд: src/data/stand/positions.json (scripts/stand-metrika.py), спрос – настоящий Вордстат. */
+import Admin from '../../layouts/Admin.astro';
+import Positions from '../../islands/admin/Positions';
+import { allProducts } from '../../lib/catalog';
+import stand from '../../data/stand/positions.json';
+import '../../styles/positions.css';
+---
+<Admin title="Позиции" active="positions" count={allProducts.filter((p) => !p.archived).length}>
+  <Positions client:load data={stand as any} />
+</Admin>
