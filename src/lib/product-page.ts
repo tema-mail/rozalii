@@ -40,11 +40,14 @@ export function productPage(page: Page): Page | null {
 
 function render(page: Page, p: Product, fresh: boolean): Page {
   const old = (page.body || '').match(/itemprop="name"\s*>([^<]*)<\/h1>/)?.[1] ?? p.title;
-  const title = p.seoTitle || `${p.title} - Розалия`;
-  let head = (page.head || '').replace(/<title>[^<]*<\/title>/, `<title>${esc(title)}</title>`)
-    .replace(/(property="og:title" content=")[^"]*/, `$1${esc(p.seoTitle || p.title)}`);
-  if (p.seoDescr || fresh) head = head.replace(/(name="description" content=")[^"]*/, `$1${esc(p.seoDescr || p.descr)}`)
-    .replace(/(property="og:description" content=")[^"]*/, `$1${esc(p.seoDescr || p.descr)}`);
+  const was = (page.head || '').match(/<title>([^<]*)<\/title>/)?.[1] ?? '';
+  const wasDescr = (page.head || '').match(/name="description" content="([^"]*)"/)?.[1] ?? '';
+  // SEO на странице – как сейчас на Тильде; меняется, только если поле в админке отличается от того, что стоит
+  const title = p.seoTitle || (fresh ? `${p.title} - Розалия` : '');
+  const descr = p.seoDescr || (fresh ? p.descr : '');
+  let head = page.head || '';
+  if (title && esc(title) !== was) head = head.replace(/<title>[^<]*<\/title>/, `<title>${esc(title)}</title>`).replace(/(property="og:title" content=")[^"]*/, `$1${esc(title)}`);
+  if (descr && esc(descr) !== wasDescr) head = head.replace(/(name="description" content=")[^"]*/, `$1${esc(descr)}`).replace(/(property="og:description" content=")[^"]*/, `$1${esc(descr)}`);
   let body = patchVar(page.body || '', p, fresh).replace(/(itemprop="name"\s*>)[^<]*(<\/h1>)/, `$1${esc(p.title)}$2`);
   if (fresh || old !== p.title) body = body.split(`>${old}<`).join(`>${esc(p.title)}<`);
   return { ...page, path: p.path.replace(/^\//, ''), head, body };

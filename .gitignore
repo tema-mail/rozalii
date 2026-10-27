@@ -7,3 +7,4 @@ docs/source/img/*
 !docs/source/img/index.tsv
 docs/source/shots
 docs/source/pages/*.html
+__pycache__/
