@@ -1,0 +1,984 @@
+{
+ "site": "rozalii.ru",
+ "collected_at": "2026-10-27",
+ "token_login": "artemiy.galimov",
+ "metrika": {
+  "counter_id": 113737961,
+  "found_in": "mc.yandex.ru/watch/113737961 on https://rozalii.ru/ + counters list",
+  "permission": "own",
+  "create_time": "2026-10-22T17:56:34+03:00",
+  "code_status": "CS_ERR_UNKNOWN",
+  "period_requested": "2025-10-27..2026-10-27",
+  "period_effective": "2026-10-22..2026-10-27 (counter created 22.10.2026)",
+  "goals": {
+   "status": "measured",
+   "value": []
+  },
+  "reports": {
+   "bydate": {
+    "query": {
+     "ids": [
+      113737961
+     ],
+     "dimensions": [
+      "ym:s:date"
+     ],
+     "metrics": [
+      "ym:s:visits"
+     ],
+     "sort": [
+      "-ym:s:visits"
+     ],
+     "date1": "2025-10-27",
+     "date2": "2026-10-27",
+     "limit": 200,
+     "offset": 1,
+     "group": "Week",
+     "benchmarks_version": "1791763200000",
+     "benchmarks_sub_industry": "false",
+     "auto_group_size": "1",
+     "exp_bucket_size": "100",
+     "attr_name": "",
+     "funnel_window": "",
+     "benchmarks_quantile": "50",
+     "time_interval": "1SECOND",
+     "intervals": "1",
+     "quantile": "50",
+     "offline_window": "21",
+     "attribution": "CROSS_DEVICE_LAST_SIGNIFICANT",
+     "currency": "RUB",
+     "benchmarks_attribution": "Automatic",
+     "adfox_event_id": "0",
+     "funnel_pattern": ""
+    },
+    "data": [
+     {
+      "dimensions": [
+       {
+        "name": "2026-10-26"
+       }
+      ],
+      "metrics": [
+       13.0
+      ]
+     },
+     {
+      "dimensions": [
+       {
+        "name": "2026-10-27"
+       }
+      ],
+      "metrics": [
+       3.0
+      ]
+     },
+     {
+      "dimensions": [
+       {
+        "name": "2026-10-24"
+       }
+      ],
+      "metrics": [
+       2.0
+      ]
+     }
+    ],
+    "total_rows": 3,
+    "total_rows_rounded": false,
+    "sampled": false,
+    "contains_sensitive_data": false,
+    "sample_share": 1.0,
+    "sample_size": 2,
+    "sample_space": 2,
+    "data_lag": 0,
+    "totals": [
+     18.0
+    ],
+    "min": [
+     2.0
+    ],
+    "max": [
+     13.0
+    ]
+   },
+   "cities": {
+    "query": {
+     "ids": [
+      113737961
+     ],
+     "dimensions": [
+      "ym:s:regionCity"
+     ],
+     "metrics": [
+      "ym:s:visits",
+      "ym:s:users"
+     ],
+     "sort": [
+      "-ym:s:visits"
+     ],
+     "date1": "2025-10-27",
+     "date2": "2026-10-27",
+     "limit": 200,
+     "offset": 1,
+     "group": "Week",
+     "benchmarks_version": "1791763200000",
+     "benchmarks_sub_industry": "false",
+     "auto_group_size": "1",
+     "exp_bucket_size": "100",
+     "attr_name": "",
+     "funnel_window": "",
+     "benchmarks_quantile": "50",
+     "time_interval": "1SECOND",
+     "intervals": "1",
+     "quantile": "50",
+     "offline_window": "21",
+     "attribution": "CROSS_DEVICE_LAST_SIGNIFICANT",
+     "currency": "RUB",
+     "benchmarks_attribution": "Automatic",
+     "adfox_event_id": "0",
+     "funnel_pattern": ""
+    },
+    "data": [
+     {
+      "dimensions": [
+       {
+        "iso_name": "RU OVB",
+        "id": "65",
+        "name": "Novosibirsk"
+       }
+      ],
+      "metrics": [
+       16.0,
+       13.0
+      ]
+     }
+    ],
+    "total_rows": 1,
+    "total_rows_rounded": false,
+    "sampled": false,
+    "contains_sensitive_data": false,
+    "sample_share": 1.0,
+    "sample_size": 2,
+    "sample_space": 2,
+    "data_lag": 0,
+    "totals": [
+     16.0,
+     13.0
+    ],
+    "min": [
+     16.0,
+     13.0
+    ],
+    "max": [
+     16.0,
+     13.0
+    ]
+   },
+   "engines": {
+    "query": {
+     "ids": [
+      113737961
+     ],
+     "dimensions": [
+      "ym:s:lastSearchEngineRoot"
+     ],
+     "metrics": [
+      "ym:s:visits"
+     ],
+     "sort": [
+      "-ym:s:visits"
+     ],
+     "date1": "2025-10-27",
+     "date2": "2026-10-27",
+     "limit": 200,
+     "offset": 1,
+     "group": "Week",
+     "benchmarks_version": "1791763200000",
+     "benchmarks_sub_industry": "false",
+     "auto_group_size": "1",
+     "exp_bucket_size": "100",
+     "attr_name": "",
+     "funnel_window": "",
+     "benchmarks_quantile": "50",
+     "time_interval": "1SECOND",
+     "intervals": "1",
+     "quantile": "50",
+     "offline_window": "21",
+     "attribution": "CROSS_DEVICE_LAST_SIGNIFICANT",
+     "currency": "RUB",
+     "benchmarks_attribution": "Automatic",
+     "adfox_event_id": "0",
+     "funnel_pattern": ""
+    },
+    "data": [
+     {
+      "dimensions": [
+       {
+        "name": "Yandex",
+        "id": "yandex",
+        "favicon": "www.yandex.ru"
+       }
+      ],
+      "metrics": [
+       1.0
+      ]
+     }
+    ],
+    "total_rows": 1,
+    "total_rows_rounded": false,
+    "sampled": false,
+    "contains_sensitive_data": false,
+    "sample_share": 1.0,
+    "sample_size": 2,
+    "sample_space": 2,
+    "data_lag": 0,
+    "totals": [
+     1.0
+    ],
+    "min": [
+     1.0
+    ],
+    "max": [
+     1.0
+    ]
+   },
+   "entry_all": {
+    "query": {
+     "ids": [
+      113737961
+     ],
+     "dimensions": [
+      "ym:s:startURLPath"
+     ],
+     "metrics": [
+      "ym:s:visits"
+     ],
+     "sort": [
+      "-ym:s:visits"
+     ],
+     "date1": "2025-10-27",
+     "date2": "2026-10-27",
+     "limit": 200,
+     "offset": 1,
+     "group": "Week",
+     "benchmarks_version": "1791763200000",
+     "benchmarks_sub_industry": "false",
+     "auto_group_size": "1",
+     "exp_bucket_size": "100",
+     "attr_name": "",
+     "funnel_window": "",
+     "benchmarks_quantile": "50",
+     "time_interval": "1SECOND",
+     "intervals": "1",
+     "quantile": "50",
+     "offline_window": "21",
+     "attribution": "CROSS_DEVICE_LAST_SIGNIFICANT",
+     "currency": "RUB",
+     "benchmarks_attribution": "Automatic",
+     "adfox_event_id": "0",
+     "funnel_pattern": ""
+    },
+    "data": [
+     {
+      "dimensions": [
+       {
+        "name": "/",
+        "favicon": "rozalii.ru"
+       }
+      ],
+      "metrics": [
+       6.0
+      ]
+     },
+     {
+      "dimensions": [
+       {
+        "name": "/about",
+        "favicon": "rozalii.ru"
+       }
+      ],
+      "metrics": [
+       1.0
+      ]
+     },
+     {
+      "dimensions": [
+       {
+        "name": "/additional_services",
+        "favicon": "rozalii.ru"
+       }
+      ],
+      "metrics": [
+       1.0
+      ]
+     },
+     {
+      "dimensions": [
+       {
+        "name": "/additional_services/farewell_hall",
+        "favicon": "rozalii.ru"
+       }
+      ],
+      "metrics": [
+       1.0
+      ]
+     },
+     {
+      "dimensions": [
+       {
+        "name": "/additional_services/the_memorable_date",
+        "favicon": "rozalii.ru"
+       }
+      ],
+      "metrics": [
+       1.0
+      ]
+     },
+     {
+      "dimensions": [
+       {
+        "name": "/additional_services/to_the_place_of_farewell",
+        "favicon": "rozalii.ru"
+       }
+      ],
+      "metrics": [
+       1.0
+      ]
+     },
+     {
+      "dimensions": [
+       {
+        "name": "/agreement",
+        "favicon": "rozalii.ru"
+       }
+      ],
+      "metrics": [
+       1.0
+      ]
+     },
+     {
+      "dimensions": [
+       {
+        "name": "/catalog",
+        "favicon": "rozalii.ru"
+       }
+      ],
+      "metrics": [
+       1.0
+      ]
+     },
+     {
+      "dimensions": [
+       {
+        "name": "/catalog/ritual_wreaths",
+        "favicon": "rozalii.ru"
+       }
+      ],
+      "metrics": [
+       1.0
+      ]
+     },
+     {
+      "dimensions": [
+       {
+        "name": "/contact",
+        "favicon": "rozalii.ru"
+       }
+      ],
+      "metrics": [
+       1.0
+      ]
+     },
+     {
+      "dimensions": [
+       {
+        "name": "/corparate",
+        "favicon": "rozalii.ru"
+       }
+      ],
+      "metrics": [
+       1.0
+      ]
+     },
+     {
+      "dimensions": [
+       {
+        "name": "/deliveri",
+        "favicon": "rozalii.ru"
+       }
+      ],
+      "metrics": [
+       1.0
+      ]
+     },
+     {
+      "dimensions": [
+       {
+        "name": "/policy",
+        "favicon": "rozalii.ru"
+       }
+      ],
+      "metrics": [
+       1.0
+      ]
+     }
+    ],
+    "total_rows": 13,
+    "total_rows_rounded": false,
+    "sampled": false,
+    "contains_sensitive_data": false,
+    "sample_share": 1.0,
+    "sample_size": 2,
+    "sample_space": 2,
+    "data_lag": 0,
+    "totals": [
+     18.0
+    ],
+    "min": [
+     1.0
+    ],
+    "max": [
+     6.0
+    ]
+   },
+   "entry_organic": {
+    "query": {
+     "ids": [
+      113737961
+     ],
+     "dimensions": [
+      "ym:s:startURLPath"
+     ],
+     "metrics": [
+      "ym:s:visits"
+     ],
+     "sort": [
+      "-ym:s:visits"
+     ],
+     "date1": "2025-10-27",
+     "date2": "2026-10-27",
+     "filters": "ym:s:lastTrafficSource=='organic'",
+     "limit": 200,
+     "offset": 1,
+     "group": "Week",
+     "benchmarks_version": "1791763200000",
+     "benchmarks_sub_industry": "false",
+     "auto_group_size": "1",
+     "exp_bucket_size": "100",
+     "attr_name": "",
+     "funnel_window": "",
+     "benchmarks_quantile": "50",
+     "time_interval": "1SECOND",
+     "intervals": "1",
+     "quantile": "50",
+     "offline_window": "21",
+     "attribution": "CROSS_DEVICE_LAST_SIGNIFICANT",
+     "currency": "RUB",
+     "benchmarks_attribution": "Automatic",
+     "adfox_event_id": "0",
+     "funnel_pattern": ""
+    },
+    "data": [
+     {
+      "dimensions": [
+       {
+        "name": "/catalog",
+        "favicon": "rozalii.ru"
+       }
+      ],
+      "metrics": [
+       1.0
+      ]
+     }
+    ],
+    "total_rows": 1,
+    "total_rows_rounded": false,
+    "sampled": false,
+    "contains_sensitive_data": false,
+    "sample_share": 1.0,
+    "sample_size": 2,
+    "sample_space": 2,
+    "data_lag": 0,
+    "totals": [
+     1.0
+    ],
+    "min": [
+     1.0
+    ],
+    "max": [
+     1.0
+    ]
+   },
+   "phrases": {
+    "query": {
+     "ids": [
+      113737961
+     ],
+     "dimensions": [
+      "ym:s:lastSearchPhrase"
+     ],
+     "metrics": [
+      "ym:s:visits"
+     ],
+     "sort": [
+      "-ym:s:visits"
+     ],
+     "date1": "2025-10-27",
+     "date2": "2026-10-27",
+     "limit": 200,
+     "offset": 1,
+     "group": "Week",
+     "benchmarks_version": "1791763200000",
+     "benchmarks_sub_industry": "false",
+     "auto_group_size": "1",
+     "exp_bucket_size": "100",
+     "attr_name": "",
+     "funnel_window": "",
+     "benchmarks_quantile": "50",
+     "time_interval": "1SECOND",
+     "intervals": "1",
+     "quantile": "50",
+     "offline_window": "21",
+     "attribution": "CROSS_DEVICE_LAST_SIGNIFICANT",
+     "currency": "RUB",
+     "benchmarks_attribution": "Automatic",
+     "adfox_event_id": "0",
+     "funnel_pattern": ""
+    },
+    "data": [
+     {
+      "dimensions": [
+       {
+        "name": "розалии.ру",
+        "favicon": "www.yandex.ru",
+        "url": "https://yandex.ru/search/?text=%D1%80%D0%BE%D0%B7%D0%B0%D0%BB%D0%B8%D0%B8.%D1%80%D1%83"
+       }
+      ],
+      "metrics": [
+       1.0
+      ]
+     }
+    ],
+    "total_rows": 1,
+    "total_rows_rounded": false,
+    "sampled": false,
+    "contains_sensitive_data": false,
+    "sample_share": 1.0,
+    "sample_size": 2,
+    "sample_space": 2,
+    "data_lag": 0,
+    "totals": [
+     1.0
+    ],
+    "min": [
+     1.0
+    ],
+    "max": [
+     1.0
+    ]
+   },
+   "sources": {
+    "query": {
+     "ids": [
+      113737961
+     ],
+     "dimensions": [
+      "ym:s:lastTrafficSource",
+      "ym:s:lastReferalSource"
+     ],
+     "metrics": [
+      "ym:s:visits",
+      "ym:s:users"
+     ],
+     "sort": [
+      "-ym:s:visits"
+     ],
+     "date1": "2025-10-27",
+     "date2": "2026-10-27",
+     "limit": 200,
+     "offset": 1,
+     "group": "Week",
+     "benchmarks_version": "1791763200000",
+     "benchmarks_sub_industry": "false",
+     "auto_group_size": "1",
+     "exp_bucket_size": "100",
+     "attr_name": "",
+     "funnel_window": "",
+     "benchmarks_quantile": "50",
+     "time_interval": "1SECOND",
+     "intervals": "1",
+     "quantile": "50",
+     "offline_window": "21",
+     "attribution": "CROSS_DEVICE_LAST_SIGNIFICANT",
+     "currency": "RUB",
+     "benchmarks_attribution": "Automatic",
+     "adfox_event_id": "0",
+     "funnel_pattern": ""
+    },
+    "data": [
+     {
+      "dimensions": [
+       {
+        "icon_id": "0",
+        "icon_type": "traffic-source",
+        "name": "Direct traffic",
+        "id": "direct"
+       },
+       {
+        "name": null
+       }
+      ],
+      "metrics": [
+       17.0,
+       14.0
+      ]
+     },
+     {
+      "dimensions": [
+       {
+        "icon_id": "2",
+        "icon_type": "traffic-source",
+        "name": "Search engine traffic",
+        "id": "organic"
+       },
+       {
+        "name": null
+       }
+      ],
+      "metrics": [
+       1.0,
+       1.0
+      ]
+     }
+    ],
+    "total_rows": 2,
+    "total_rows_rounded": false,
+    "sampled": false,
+    "contains_sensitive_data": false,
+    "sample_share": 1.0,
+    "sample_size": 2,
+    "sample_space": 2,
+    "data_lag": 0,
+    "totals": [
+     18.0,
+     15.0
+    ],
+    "min": [
+     1.0,
+     1.0
+    ],
+    "max": [
+     17.0,
+     14.0
+    ]
+   },
+   "total": {
+    "query": {
+     "ids": [
+      113737961
+     ],
+     "dimensions": [],
+     "metrics": [
+      "ym:s:visits",
+      "ym:s:users",
+      "ym:s:pageviews",
+      "ym:s:bounceRate"
+     ],
+     "sort": [
+      "-ym:s:visits"
+     ],
+     "date1": "2025-10-27",
+     "date2": "2026-10-27",
+     "limit": 200,
+     "offset": 1,
+     "group": "Week",
+     "benchmarks_version": "1791763200000",
+     "benchmarks_sub_industry": "false",
+     "auto_group_size": "1",
+     "exp_bucket_size": "100",
+     "attr_name": "",
+     "funnel_window": "",
+     "benchmarks_quantile": "50",
+     "time_interval": "1SECOND",
+     "intervals": "1",
+     "quantile": "50",
+     "offline_window": "21",
+     "attribution": "CROSS_DEVICE_LAST_SIGNIFICANT",
+     "currency": "RUB",
+     "benchmarks_attribution": "Automatic",
+     "adfox_event_id": "0",
+     "funnel_pattern": ""
+    },
+    "data": [
+     {
+      "dimensions": [],
+      "metrics": [
+       18.0,
+       15.0,
+       24.0,
+       38.88888889
+      ]
+     }
+    ],
+    "total_rows": 1,
+    "total_rows_rounded": false,
+    "sampled": false,
+    "contains_sensitive_data": false,
+    "sample_share": 1.0,
+    "sample_size": 2,
+    "sample_space": 2,
+    "data_lag": 0,
+    "totals": [
+     18.0,
+     15.0,
+     24.0,
+     38.88888889
+    ],
+    "min": [
+     18.0,
+     15.0,
+     24.0,
+     38.88888889
+    ],
+    "max": [
+     18.0,
+     15.0,
+     24.0,
+     38.88888889
+    ]
+   }
+  }
+ },
+ "webmaster": {
+  "api": "200",
+  "host": {
+   "host_id": "https:rozalii.ru:443",
+   "verified": true,
+   "main_mirror": null,
+   "host_data_status": "NOT_LOADED",
+   "host_display_name": "rozalii.ru",
+   "ascii_host_url": "https://rozalii.ru/",
+   "unicode_host_url": "https://rozalii.ru/"
+  },
+  "diagnostics": {
+   "problems": {
+    "NO_ROBOTS_TXT": {
+     "severity": "POSSIBLE_PROBLEM",
+     "state": "ABSENT",
+     "last_state_update": null
+    },
+    "DUPLICATE_PAGES": {
+     "severity": "POSSIBLE_PROBLEM",
+     "state": "ABSENT",
+     "last_state_update": null
+    },
+    "TOO_MANY_DOMAINS_ON_SEARCH": {
+     "severity": "POSSIBLE_PROBLEM",
+     "state": "ABSENT",
+     "last_state_update": null
+    },
+    "NO_SITEMAP_MODIFICATIONS": {
+     "severity": "POSSIBLE_PROBLEM",
+     "state": "ABSENT",
+     "last_state_update": null
+    },
+    "CONNECT_FAILED": {
+     "severity": "FATAL",
+     "state": "ABSENT",
+     "last_state_update": null
+    },
+    "FAVICON_PROBLEM": {
+     "severity": "RECOMMENDATION",
+     "state": "ABSENT",
+     "last_state_update": null
+    },
+    "NO_SITEMAPS": {
+     "severity": "POSSIBLE_PROBLEM",
+     "state": "ABSENT",
+     "last_state_update": null
+    },
+    "NO_REGIONS": {
+     "severity": "RECOMMENDATION",
+     "state": "ABSENT",
+     "last_state_update": null
+    },
+    "NO_METRIKA_COUNTER_CRAWL_ENABLED": {
+     "severity": "POSSIBLE_PROBLEM",
+     "state": "PRESENT",
+     "last_state_update": "2026-10-27T18:06:03.953+03:00"
+    },
+    "URL_ALERT_5XX": {
+     "severity": "CRITICAL",
+     "state": "ABSENT",
+     "last_state_update": null
+    },
+    "DOCUMENTS_MISSING_TITLE": {
+     "severity": "POSSIBLE_PROBLEM",
+     "state": "ABSENT",
+     "last_state_update": null
+    },
+    "ERROR_IN_ROBOTS_TXT": {
+     "severity": "POSSIBLE_PROBLEM",
+     "state": "ABSENT",
+     "last_state_update": null
+    },
+    "THREATS": {
+     "severity": "FATAL",
+     "state": "ABSENT",
+     "last_state_update": null
+    },
+    "ERRORS_IN_SITEMAPS": {
+     "severity": "POSSIBLE_PROBLEM",
+     "state": "ABSENT",
+     "last_state_update": null
+    },
+    "DISALLOWED_IN_ROBOTS": {
+     "severity": "FATAL",
+     "state": "ABSENT",
+     "last_state_update": null
+    },
+    "VIDEOHOST_OFFER_NEED_PAPER": {
+     "severity": "POSSIBLE_PROBLEM",
+     "state": "ABSENT",
+     "last_state_update": null
+    },
+    "SOFT_404": {
+     "severity": "POSSIBLE_PROBLEM",
+     "state": "ABSENT",
+     "last_state_update": null
+    },
+    "VIDEOHOST_OFFER_FAILED": {
+     "severity": "POSSIBLE_PROBLEM",
+     "state": "ABSENT",
+     "last_state_update": null
+    },
+    "INSIGNIFICANT_CGI_PARAMETER": {
+     "severity": "RECOMMENDATION",
+     "state": "ABSENT",
+     "last_state_update": null
+    },
+    "DOCUMENTS_MISSING_DESCRIPTION": {
+     "severity": "POSSIBLE_PROBLEM",
+     "state": "ABSENT",
+     "last_state_update": null
+    },
+    "NOT_IN_SPRAV": {
+     "severity": "RECOMMENDATION",
+     "state": "ABSENT",
+     "last_state_update": null
+    },
+    "BIG_FAVICON_ABSENT": {
+     "severity": "RECOMMENDATION",
+     "state": "ABSENT",
+     "last_state_update": null
+    },
+    "FAVICON_ERROR": {
+     "severity": "POSSIBLE_PROBLEM",
+     "state": "ABSENT",
+     "last_state_update": null
+    },
+    "NO_METRIKA_COUNTER_BINDING": {
+     "severity": "POSSIBLE_PROBLEM",
+     "state": "ABSENT",
+     "last_state_update": null
+    },
+    "DNS_ERROR": {
+     "severity": "FATAL",
+     "state": "ABSENT",
+     "last_state_update": null
+    },
+    "MAIN_MIRROR_IS_NOT_HTTPS": {
+     "severity": "POSSIBLE_PROBLEM",
+     "state": "ABSENT",
+     "last_state_update": null
+    },
+    "MAIN_PAGE_ERROR": {
+     "severity": "FATAL",
+     "state": "ABSENT",
+     "last_state_update": null
+    },
+    "MAIN_PAGE_REDIRECTS": {
+     "severity": "POSSIBLE_PROBLEM",
+     "state": "ABSENT",
+     "last_state_update": null
+    },
+    "SLOW_AVG_RESPONSE_TIME": {
+     "severity": "CRITICAL",
+     "state": "ABSENT",
+     "last_state_update": null
+    },
+    "NOT_MOBILE_FRIENDLY": {
+     "severity": "RECOMMENDATION",
+     "state": "UNDEFINED",
+     "last_state_update": null
+    },
+    "URL_ALERT_4XX": {
+     "severity": "RECOMMENDATION",
+     "state": "ABSENT",
+     "last_state_update": null
+    },
+    "DUPLICATE_CONTENT_ATTRS": {
+     "severity": "POSSIBLE_PROBLEM",
+     "state": "ABSENT",
+     "last_state_update": null
+    }
+   }
+  },
+  "sitemaps": {
+   "sitemaps": []
+  },
+  "summary": {
+   "host_id": null,
+   "error_message": "Host \"https:rozalii.ru:443\" is not loaded in Ya.Webmaster yet",
+   "error_code": "HOST_NOT_LOADED"
+  },
+  "in_search_history": {
+   "host_id": null,
+   "error_message": "Host \"https:rozalii.ru:443\" is not loaded in Ya.Webmaster yet",
+   "error_code": "HOST_NOT_LOADED"
+  },
+  "indexing_history": {
+   "host_id": null,
+   "error_message": "Host \"https:rozalii.ru:443\" is not loaded in Ya.Webmaster yet",
+   "error_code": "HOST_NOT_LOADED"
+  },
+  "queries_2026-07-27..2026-10-27": {
+   "host_id": null,
+   "error_message": "Host \"https:rozalii.ru:443\" is not loaded in Ya.Webmaster yet",
+   "error_code": "HOST_NOT_LOADED"
+  },
+  "in_search_samples": {
+   "host_id": null,
+   "error_message": "Host \"https:rozalii.ru:443\" is not loaded in Ya.Webmaster yet",
+   "error_code": "HOST_NOT_LOADED"
+  },
+  "status_note": "host_data_status NOT_LOADED: pages/queries/region = unavailable, not zero"
+ },
+ "gsc": {
+  "service_account": "teyes-seo-admin (key ~/.config/gsc/teyes-sa.json)",
+  "list_sites_http": 200,
+  "sites": [
+   {
+    "siteUrl": "sc-domain:evolutioncar.by",
+    "permissionLevel": "siteFullUser"
+   },
+   {
+    "siteUrl": "sc-domain:evolutioncarservice.ru",
+    "permissionLevel": "siteFullUser"
+   },
+   {
+    "siteUrl": "sc-domain:teyes-sibir.ru",
+    "permissionLevel": "siteRestrictedUser"
+   }
+  ],
+  "sc-domain:rozalii.ru": 404,
+  "https://rozalii.ru/": 404,
+  "status": "unavailable: rozalii.ru not shared with service account"
+ },
+ "site_checks": {
+  "robots.txt": 200,
+  "sitemap.xml": 200,
+  "http->https": 301,
+  "www->apex": 301
+ }
+}
