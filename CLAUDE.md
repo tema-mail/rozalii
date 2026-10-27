@@ -10,3 +10,4 @@
 - Сверка с оригиналом: `NEW=http://127.0.0.1:4795/rozalii node scripts/verify.mjs` → docs/СВЕРКА.md. Телефон проверять профилем iPhone, а не узким окном с десктопным UA (Тильда считает ширину по-разному).
 - Прежняя версия «по карте сайта с ЧПУ» – ветка `v-kod-po-karte`. Демо кабинета оптовика – public/opt (`python3 scripts/opt-data.py`).
 - Сборка: `PUBLIC_SITE_URL=https://tema-mail.github.io PUBLIC_BASE=/rozalii npx astro build`.
+- SEO на живой Тильде (27.10.2026): `scripts/tmcp.py` – вызов MCP Тильды ключом ~/.config/tilda/mcp_token_rozalii (сервер `tilda-rozalii`), с ожиданием лимита. План – docs/seo/seo-plan.json (агент site-seo), внесение – `scripts/seo-apply.py pages|products`, резервные копии до правок – docs/seo/backup-*.json. update_page_settings сохраняет форму целиком – передавать все поля.
