@@ -6,7 +6,8 @@ Search Console ему отвечает генератор ниже. Цифры �
 что внутри кабинета». Настоящий счётчик rozalii.ru – 113737961, создан 22.10.2026, данных почти нет; когда они
 накопятся, этот скрипт заменяется на сбор по токену (как у gaz-mag analytics/collect.py).
 
-Запуск: python3 scripts/stand-metrika.py  →  src/data/stand/metrika.json (в репозитории: данных клиента в нём нет).
+Запуск: python3 scripts/stand-metrika.py  →  src/data/stand/metrika.json и demand.json («Товарный спрос», форма ALEX KROWN)
+(в репозитории: данных клиента в них нет).
 """
 from __future__ import annotations
 
@@ -182,6 +183,35 @@ class StandGsc:
                  "position": sum(r["position"] * r["impressions"] for r in rows) / im if im else None}]
 
 
+def demand_slice(a: str, b: str) -> dict:
+    """Срез «Товарного спроса» (форма ALEX KROWN scripts/demand-collect.mjs): по товару – просмотры карточки, добавления
+    в корзину, заказанные штуки, выручка (цен на сайте нет – 0); входы сразу на карточку по каналам; фразы поиска."""
+    products = json.loads((ROOT / "src" / "data" / "products.json").read_text())
+    live = [p for p in products if not p.get("hidden")]
+    # у товаров с настоящим названием спрос выше, у заглушек «… — товар 01» – ниже
+    weight = {p["id"]: (1.0 if "— товар" not in p["title"] else 0.35) * (0.3 + 1.4 * noise("w", p["id"])) for p in live}
+    total_w = sum(weight.values())
+    rows, entries = [], {}
+    span = list(days(a, b))
+    for p in live:
+        views = sum(day_visits(d) * 1.1 * weight[p["id"]] / total_w * (0.8 + 0.4 * noise("v", p["id"], d)) for d in span)
+        views = round(views)
+        if not views:
+            continue
+        baskets = round(views * 0.11 * (0.6 + 0.8 * noise("b", p["id"], a)))
+        qty = round(views * 0.034 * (0.2 + 1.6 * noise("q", p["id"], a)))
+        rows.append({"dims": [p["title"], p["id"]], "m": [views, baskets, qty, 0]})
+        for src, share in (("Поисковые системы", 0.42), ("Прямые заходы", 0.18), ("Социальные сети", 0.05), ("Рекламные системы", 0.1), ("Внутренние переходы", 0.25)):
+            v = round(views * 0.3 * share * (0.6 + 0.8 * noise("e", p["id"], src, a)))
+            if v:
+                entries[(p["path"], src)] = v
+    rows.sort(key=lambda r: -r["m"][0])
+    n = len(span) / 30 * (1 / (1 + (dt.date(2026, 10, 27) - dt.date.fromisoformat(b)).days / 240))
+    phrases = [{"dims": [ph], "m": [max(1, round(day_visits(dt.date.fromisoformat(b)) * 30 * n * 0.37 * s))]} for ph, s in PHRASES]
+    return {"products": {"rows": rows}, "productEntries": {"rows": [{"dims": [k[0], k[1]], "m": [v]} for k, v in sorted(entries.items(), key=lambda x: -x[1])]},
+            "phrases": {"rows": phrases}}
+
+
 def main() -> None:
     m = mk.Metrika("stand", fetch=lambda url, headers, timeout: json.dumps(answer(url)).encode())
     now = dt.datetime(2026, 10, 28, 4, 0, tzinfo=dt.timezone.utc)
@@ -190,6 +220,11 @@ def main() -> None:
     out = ROOT / "src" / "data" / "stand"
     out.mkdir(parents=True, exist_ok=True)
     (out / "metrika.json").write_text(json.dumps({"report": report, "saved_at": now.isoformat(), "last_try": None}, ensure_ascii=False))
+    dm = {"collectedAt": now.isoformat(), "counter": mk.COUNTER, "stand": True,
+          "periods": {k: {"date1": v["date1"], "date2": v["date2"], **demand_slice(v["date1"], v["date2"])} for k, v in report["periods"].items()},
+          "modes": {k: {"label": v["label"], "prevLabel": v["prev_label"], "date1": v["date1"], "date2": v["date2"], "prev1": v["prev1"], "prev2": v["prev2"],
+                        "now": demand_slice(v["date1"], v["date2"]), "prev": demand_slice(v["prev1"], v["prev2"])} for k, v in report["modes"].items()}}
+    (out / "demand.json").write_text(json.dumps(dm, ensure_ascii=False))
     print("стенд Метрики:", {k: round(v["summary"]["visits"]) for k, v in report["periods"].items()}, "ошибок:", len(report["errors"]))
 
 
