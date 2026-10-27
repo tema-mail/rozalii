@@ -1,0 +1,23 @@
+---
+/** Админка → Заявки (остров Leads; доска – эталон ALEX KROWN / EV, перенос кабинета-стандарта Milovini). Приёмника нет –
+    пример подписан «Пример:» и взят с настоящей формы сайта: на rozalii.ru одна форма – «Оформление заказа» из корзины
+    (Тильда, имя формы «Cart»: имя, телефон, получатель, дата и время, промокод). Товары и варианты – реальные позиции
+    каталога, категория – раздел каталога; цен на сайте нет – «по запросу». */
+import Admin from '../../layouts/Admin.astro';
+import Leads, { type Lead } from '../../islands/admin/Leads';
+import { allProducts } from '../../lib/catalog';
+const at = (d: number, h: number) => new Date(Date.UTC(2026, 9, d, h)).toISOString();
+const F = 'Оформление заказа (Cart)';
+const sample: Lead[] = [
+  { id: 'RZ-1027-01', createdAt: at(27, 6), name: 'Пример: Ирина', phone: '+7 900 000-00-31', form: F, page: '/catalog/ritual_wreaths', stage: 'новая', source: 'Поиск Яндекса', message: 'Получатель – другой человек · доставка 29.10 к 10:00, ритуальный зал, ул. Вознесенская · лента «Помним. Любим. Скорбим»', items: [{ uid: '683702384973', title: 'Амур', variant: 'С чёрной лентой', category: 'Венки › Венки 110', qty: 1, price: null }], category: 'Венки' },
+  { id: 'RZ-1026-02', createdAt: at(26, 11), name: 'Пример: Сергей', phone: '+7 900 000-00-32', form: F, page: '/catalog/ritual_wreaths', stage: 'в работе', source: 'Карты Яндекса', message: 'Самовывоз 27.10 до 12:00', items: [{ uid: '363646447713', title: 'Флоренция', variant: 'Белые цветы', category: 'Венки › Венки 140 элитные', qty: 1, price: null }, { uid: '192914144583', title: 'Сирень', category: 'Венки › Венки 110', qty: 2, price: null }], category: 'Венки' },
+  { id: 'RZ-1025-03', createdAt: at(25, 8), name: 'Пример: Татьяна', phone: '+7 900 000-00-33', form: F, page: '/catalog/ritual_baskets', stage: 'выполнена', source: 'Прямые заходы', message: 'Доставка к памятной дате 26.10, Старое кладбище, Сергиев Посад', items: [{ uid: '', title: 'Корзины плетенные — товар 02', category: 'Корзины плетенные', qty: 1, price: null }], category: 'Корзины плетенные' },
+  { id: 'RZ-1024-04', createdAt: at(24, 9), name: 'Пример: Ритуальное агентство «Пример»', phone: '+7 900 000-00-34', form: F, page: '/catalog', stage: 'в работе', source: 'Поиск Google', message: 'Оптом: 10 венков 90 см к пятнице, счёт на юрлицо', items: [{ uid: '342344192333', title: 'Амур', variant: 'Красные цветы', category: 'Венки › Венки 90', qty: 6, price: null }, { uid: '823238585333', title: 'Диагональ', variant: 'Синие цветы', category: 'Венки › Венки 90', qty: 4, price: null }], category: 'Венки' },
+  { id: 'RZ-1023-05', createdAt: at(23, 7), name: 'Пример: Андрей', phone: '+7 900 000-00-35', form: F, page: '/catalog/pot', stage: 'отказ', source: 'Прямые заходы', message: 'Передумал – нужна доставка сегодня', items: [{ uid: '', title: 'Горшки — товар 01', category: 'Горшки', qty: 1, price: null }], category: 'Горшки' },
+];
+// uid «пустых» строк примера – настоящие товары-заглушки каталога по названию
+for (const l of sample) for (const i of l.items) if (!i.uid) i.uid = allProducts.find((p) => p.title === i.title)?.id ?? '';
+---
+<Admin title="Заявки" active="leads" count={allProducts.filter((p) => !p.archived).length}>
+  <Leads client:load leads={[]} sample={sample} />
+</Admin>

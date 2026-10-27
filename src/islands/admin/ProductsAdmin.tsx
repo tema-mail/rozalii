@@ -300,10 +300,10 @@ export default function ProductsAdmin({ items, parts: initParts, base }: { items
       {del && (
         <div class="ed" role="dialog" aria-modal="true" aria-label="Удалить товар">
           <div class="ed__bg" onClick={() => setDel(null)} />
-          <div class="ed__panel" style="max-width:480px;height:auto;margin:18vh auto 0;padding:24px;border-radius:14px">
-            <h2 style="margin:0 0 8px">Удалить товар «{del.title}»?</h2>
-            <p class="muted" style="margin:0 0 18px">Удаление – насовсем: товар, его фото в карточке и страница пропадут с сайта, отката нет. В архиве товар не виден на сайте, но его можно вернуть.</p>
-            <div style="display:flex;gap:8px;flex-wrap:wrap">
+          <div class="ed__ask">
+            <h2>Удалить товар «{del.title}»?</h2>
+            <p class="muted">Удаление – насовсем: товар, его фото в карточке и страница пропадут с сайта, отката нет. В архиве товар не виден на сайте, но его можно вернуть.</p>
+            <div>
               <button class="btn primary" onClick={() => toArchive(del, true)}>Перенести в архив</button>
               <button class="btn ghost" style="color:#b0333f;border:1px solid #b0333f" onClick={() => destroy(del)}>Удалить навсегда</button>
               <button class="btn ghost" onClick={() => setDel(null)}>Отмена</button>
