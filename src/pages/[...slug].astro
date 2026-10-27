@@ -4,6 +4,7 @@
     Редиректы Тильды – meta refresh. Подпапка Pages (BASE_URL) дописывается
     здесь ко всем корневым путям: ссылкам страниц и ресурсам /_t/, в том
     числе внутри строк скриптов и экранированного JSON. */
+import { newProductPages, productPage } from '../lib/product-page';
 type Page = {
   path: string;
   redirect?: string;
@@ -15,7 +16,9 @@ type Page = {
 
 export function getStaticPaths() {
   const files = import.meta.glob<Page>('../data/pages/*.json', { eager: true, import: 'default' });
-  return Object.values(files).map((page) => ({ params: { slug: page.path || undefined }, props: { page } }));
+  // карточки товаров – с правками админки (src/lib/product-page.ts): скрытый товар не собирается, новые – по образцу
+  const pages = Object.values(files).map(productPage).filter((p): p is Page => !!p);
+  return [...pages, ...newProductPages(pages)].map((page) => ({ params: { slug: page.path || undefined }, props: { page } }));
 }
 
 const { page } = Astro.props as { page: Page };
