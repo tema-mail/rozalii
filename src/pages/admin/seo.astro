@@ -1,0 +1,13 @@
+---
+/** Админка → SEO-аналитика. Раздел «SEO-аналитика» кабинета EV SIBIR один в один: его код (seo_map.render_body) рисует
+    реестр ключевых слов – scripts/seo-ev.py → src/data/seo-ev.json, как у ALEX KROWN. Настоящие: keywords живого rozalii.ru
+    (27.10.2026) и спрос Вордстата; показы и места – стенд «Позиций» (подписано на экране). */
+import Admin from '../../layouts/Admin.astro';
+import { allProducts } from '../../lib/catalog';
+import seo from '../../data/seo-ev.json';
+---
+<Admin title="SEO-аналитика" active="seo" count={allProducts.filter((p) => !p.archived).length}>
+  <p class="demo-note" style="max-width:1100px;margin:0 auto 14px">Пример раздела: ключевые слова и спрос – настоящие, показы и места в поиске – стендовые, как в «Позициях». Настоящие придут из Вебмастера и Search Console после «да» на их настройку.</p>
+  <div class="seo-ev" set:html={seo.html} />
+</Admin>
+<style is:global set:html={seo.css}></style>
