@@ -8,3 +8,9 @@ docs/source/img/*
 docs/source/shots
 docs/source/pages/*.html
 __pycache__/
+
+# реальная аналитика клиента – в git только зашифрованная src/data/sealed (scripts/seal-data.mjs)
+src/data/live/
+analytics/metrika.json
+server-data-tmp/
+analytics/positions.json
