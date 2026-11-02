@@ -1,12 +1,12 @@
 """Раздел «SEO-аналитика» админки rozalii – кодом эталона EV SIBIR (seo_map.render_body), как у ALEX KROWN
-scripts/seo-ev.py, без переписывания экрана. Спрос и выдача – настоящие, показы – стенд:
+scripts/seo-ev.py, без переписывания экрана. Всё настоящее (02.11.2026 – без стенда):
 – реестр ключевых слов – keywords, которые 27.10.2026 поставлены на живой rozalii.ru (docs/seo/seo-plan.json: 15 страниц
   и 69 товаров; копия сайта снята с Тильды раньше, в её HTML их нет);
 – спрос – Вордстат 08.09–07.10.2026 (docs/seo/research/wordstat-2026-10-27.json): Москва и область вместо «НСК»
   эталона, Россия – как «РФ»; фразы, которых в выгрузке нет, – «не собрано», не ноль;
 – позиция Яндекса – снятая выдача 27.10.2026 (serp-2026-10-27.json, топ-10): rozalii.ru не нашёлся ни по одному запросу;
-– показы и места Вебмастера / Search Console – стенд «Позиций» (src/data/stand/positions.json) с пометкой: Вебмастер
-  ещё не загрузил данные сайта, у ключа Search Console нет доступа к rozalii.ru (yandex-2026-10-27.json).
+– места – реальный снимок «Позиций» (src/data/live/positions.json, XMLRiver); показов нет: Вебмастер ещё не загрузил
+  данные сайта, Search Console к rozalii.ru не подключена.
 
 Запуск: python3 scripts/seo-ev.py  →  src/data/seo-ev.json
 """
@@ -93,21 +93,19 @@ def enrich(rows: list[dict]) -> dict:
         if k in checked:
             r["yandex_position"] = {"status": "measured", "position": None, "checked_depth": 10}
             stats["serp"] += 1
-    # показы и места – стенд «Позиций» (src/data/stand/positions.json): владелец 26.10.2026 «не нулевые данные стенда»;
-    # совпадение по словам, как enrich_with_real_queries у EV
-    st = json.loads((ROOT / "src" / "data" / "stand" / "positions.json").read_text())
-    month = {m["engine"]: m for m in st["months"] if m["region"] == 0}
-    stats["stand"] = 0
+    # места – реальный снимок выдачи «Позиций» (scripts/real-analytics.py → src/data/live/positions.json, XMLRiver, Москва
+    # и область, топ-20), точное совпадение фразы; показов нет – Вебмастер ещё не загрузил сайт, Search Console не подключена
+    live = json.loads((ROOT / "src" / "data" / "live" / "positions.json").read_text())
+    snap = {x["query"].lower(): x for x in live["nsk"]["rows"]}
+    stats["live"], stats["live_at"] = 0, (live["nsk"].get("measured_to") or "")[:10]
     for r in rows:
-        words = set(r["phrase"].lower().split())
+        x = snap.get(r["phrase"].lower())
+        if not x:
+            continue
         for eng in ("yandex", "google"):
-            for q in month.get(eng, {}).get("rows", []):
-                if seo_map._stop_words_ratio(words, set(q["query"].split())) >= 0.6:
-                    r[f"{eng}_impressions"] = {"status": "measured", "value": q["impressions"], "period": "стенд"}
-                    r[f"{eng}_position"] = {"status": "measured", "position": round(q["position"]), "checked_depth": 20}
-                    r["real_query_match"] = True
-                    stats["stand"] += 1
-                    break
+            if x.get(eng):
+                r[f"{eng}_position"] = {"status": "measured", "position": x[eng]["position"], "checked_depth": x[eng]["depth"] or 20}
+        stats["live"] += 1
     return stats
 
 
@@ -118,9 +116,9 @@ def main() -> None:
     swap = [
         ("Спрос НСК", "Спрос МО"), ("по Новосибирску и по России отдельно", "по Москве и области и по России отдельно"),
         ("Пока не собрано: нужен доступ к XMLRiver или Яндекс.Директ.", f"Собрано из Вордстата {html.escape('08.09–07.10.2026')} по фразам исследования: МО – у {stats['mo']} слов, РФ – у {stats['rf']}; остальное – не собрано."),
-        ("Отмечено «да», если похожая формулировка реально встретилась в выгрузке Яндекс.Вебмастера", "Отмечено «да», если похожая формулировка встретилась в выгрузке Яндекс.Вебмастера (сейчас – стенд: Вебмастер rozalii.ru ещё не загрузил данные)"),
+        ("Отмечено «да», если похожая формулировка реально встретилась в выгрузке Яндекс.Вебмастера", "Отмечено «да», если похожая формулировка встретилась в выгрузке Яндекс.Вебмастера (сейчас пусто: Вебмастер rozalii.ru ещё не загрузил данные)"),
         (f"Реестр ключевых слов сайта EV Sibir ({n_pages} страниц), сверенный с реальными поисковыми запросами. Архитектура и дисциплина — по технологии, собранной для TEYES; масштаб — под наш сайт.",
-         f"Реестр ключевых слов rozalii.ru ({n_pages} страниц и карточек) – keywords, поставленные на живой сайт 27.10.2026. Спрос – Вордстат, позиция Яндекса – снятая выдача 27.10.2026 (топ-10): сайт не нашёлся ни по одному из {stats['serp']} проверенных запросов – домену полтора месяца. Показы, места и «реальный запрос» – стенд, как в «Позициях» (Вебмастер ещё не загрузил данные сайта, у ключа Search Console нет доступа к rozalii.ru); спрос – настоящий."),
+         f"Реестр ключевых слов rozalii.ru ({n_pages} страниц и карточек) – keywords, поставленные на живой сайт 27.10.2026. Спрос – Вордстат 08.09–07.10.2026. Места в Яндексе и Google – реальный снимок выдачи XMLRiver {'.'.join(reversed(stats['live_at'].split('-')))} (Москва и область, топ-20) у {stats['live']} фраз «Позиций»; у остальных – выдача Яндекса 27.10.2026 (топ-10), где сайта не было. Показов и «реального запроса» нет: Вебмастер ещё не загрузил данные сайта, Search Console к rozalii.ru не подключена."),
     ]
     swap += [
         ("считается по разделу страницы (марка, модель, документ)", "считается по разделу страницы (каталог, карточка товара, услуги)"),
