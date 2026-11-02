@@ -1,31 +1,22 @@
 ---
 /** Админка → Метрика. Верхний уровень (владелец 17.10.2026, ALEX KROWN): «Метрика и каналы» и «Товарный спрос» – у каждого
     свои «Показатели | Сравнение». «Метрика и каналы» – экран кабинета-стандарта (gaz-mag ← TEYES Sibir), «Товарный спрос» –
-    DemandView / DemandCompare с ALEX KROWN. Пока на стендовых цифрах (scripts/stand-metrika.py → src/data/stand/*.json):
-    счётчик rozalii.ru 113737961 поставлен 22.10.2026. Стили привязаны к обёрткам .mx и .mk: замок кабинета подменяет body. */
+    DemandView / DemandCompare с ALEX KROWN. С 02.11.2026 – реальный срез: scripts/real-analytics.py → src/data/live/metrika.json
+    (счётчик 113737961, поставлен 22.10.2026). Товарного спроса нет: электронная коммерция в счётчике выключена (API 400). Стили привязаны к обёрткам .mx и .mk: замок кабинета подменяет body. */
 import Admin from '../../layouts/Admin.astro';
 import Metrika from '../../islands/admin/Metrika';
-import DemandView from '../../components/admin/DemandView.astro';
-import DemandCompare from '../../components/admin/DemandCompare.astro';
 import { allProducts } from '../../lib/catalog';
-import stand from '../../data/stand/metrika.json';
-import dm from '../../data/stand/demand.json';
+import live from '../../data/live/metrika.json';
+import dm from '../../data/stand/demand.json'; // только список периодов и режимов для вкладок
 import '../../styles/metrika.css';
 import '../../styles/demand.css';
 ---
 <Admin title="Метрика" active="metrika" count={allProducts.filter((p) => !p.archived).length}>
   <nav class="mk-top" aria-label="Раздел"><a href="/admin/metrika?v=ind" data-sec="mk" class="on">Метрика и каналы</a><a href="/admin/metrika?s=demand&v=ind" data-sec="dm">Товарный спрос</a></nav>
-  <div class="mk-view" data-view="mk"><div class="mx"><div class="mx-main"><Metrika client:load data={stand} /></div></div></div>
-  {Object.entries(dm.periods).map(([k, p]) => (
-    <div class="mk-view" data-view={`dm:ind:${k}`} hidden>
-      <p class="demo-note dm-note">Пример раздела на стендовых цифрах: какие венки смотрят и заказывают. Настоящие данные придут из электронной коммерции Метрики (её шлёт корзина Тильды), когда счётчик накопит историю.</p>
-      <DemandView slice={p as any} period={k} collectedAt={dm.collectedAt} />
-    </div>
-  ))}
-  {Object.entries(dm.modes).map(([k, md]) => (
-    <div class="mk-view" data-view={`dm:cmp:${k}`} hidden>
-      <p class="demo-note dm-note">Пример раздела на стендовых цифрах – сравнение периодов.</p>
-      <DemandCompare mode={md as any} modeKey={k} collectedAt={dm.collectedAt} />
+  <div class="mk-view" data-view="mk"><div class="mx"><div class="mx-main"><p class="mk-note" style="margin:0 0 12px">Реальные данные счётчика rozalii.ru (113737961) с 22.10.2026: сайту на коде неделя, визитов единицы. Целей в счётчике нет – заявки и звонки не считаются, поэтому в колонках заявок пусто. Search Console к rozalii.ru не подключена.</p><Metrika client:load data={live as any} /></div></div></div>
+  {[...Object.keys(dm.periods).map((k) => `dm:ind:${k}`), ...Object.keys(dm.modes).map((k) => `dm:cmp:${k}`)].map((key) => (
+    <div class="mk-view" data-view={key} hidden>
+      <p class="demo-note dm-note">Товарного спроса пока нет: в счётчике rozalii.ru выключена электронная коммерция (Метрика отвечает «ecommerce is not enabled», 02.11.2026), поэтому просмотры, корзины и заказы товаров не считаются. Включить её – одна галочка в настройках счётчика; корзина Тильды сама шлёт события. После этого раздел начнёт заполняться.</p>
     </div>
   ))}
 </Admin>
@@ -62,13 +53,6 @@ import '../../styles/demand.css';
         var q = new URLSearchParams(href.split('?')[1] || '');
         if (show(keyOf(q))) history.replaceState(null, '', '?' + q.toString());
       }
-    });
-    // «Обновить» у «Товарного спроса» – у кабинета на Pages сервера нет, цифры – стенд
-    document.addEventListener('submit', function (e) {
-      if (!e.target.classList || !e.target.classList.contains('mk-refresh')) return;
-      e.preventDefault();
-      var bar = e.target.closest('.mk-bar');
-      if (bar && !bar.parentElement.querySelector('.mk-later')) bar.insertAdjacentHTML('afterend', '<div class="mk-note mk-later">Сейчас здесь стенд. Когда раздел переключится на настоящую Метрику, кнопка будет собирать свежие цифры.</div>');
     });
   })();
 </script>

@@ -12,6 +12,10 @@ jobs:
       - uses: actions/setup-node@v4
         with: { node-version: 24, cache: npm }
       - run: npm ci
+      # реальная аналитика админки лежит в репо зашифрованной – открыть ключом входа до сборки
+      - name: Открыть данные аналитики
+        run: node scripts/seal-data.mjs --open
+        env: { ADMIN_LOGIN: '${{ secrets.ADMIN_LOGIN }}', ADMIN_PASS: '${{ secrets.ADMIN_PASS }}' }
       - run: npm run build
         env: { PUBLIC_SITE_URL: 'https://tema-mail.github.io', PUBLIC_BASE: /rozalii, PUBLIC_NOINDEX: '1' }
       # вся админка (/admin) – за логином и паролем; без секретов шаг падает и открытая админка не публикуется

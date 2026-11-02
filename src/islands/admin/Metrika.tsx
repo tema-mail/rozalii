@@ -1,6 +1,6 @@
 // «Метрика и каналы» админки rozalii – экран кабинета-стандарта (gaz-mag ← TEYES Sibir, макет утверждён владельцем
 // 14.10.2026) без изменений вида. Отчёт – той же формы, что собирает сервер gaz-mag (analytics/providers/metrika_report.py),
-// но пока на стенде: scripts/stand-metrika.py, src/data/stand/metrika.json (владелец 26.10.2026: «данные стенда, не нулевые»).
+// с 02.11.2026 – реальный срез: scripts/real-analytics.py → src/data/live/metrika.json (стенд – scripts/stand-metrika.py, больше не показывается).
 // Настоящий счётчик rozalii.ru 113737961 создан 22.10.2026 – сбор по токену включим, когда накопятся данные.
 // Весь текст из отчёта выводится через Preact (экранируется), без innerHTML.
 import { useState } from 'preact/hooks';
@@ -256,7 +256,7 @@ function Report({ d, busy, error, reload }: { d: R; busy: boolean; error: string
       <div class="bar">
         <h1>Метрика и каналы</h1>
         <div class="fresh">
-          <span>{r.stand ? 'Стенд: цифры-пример, не данные сайта' : `Данные на ${stamp(r.fetched_at)} · обновляются раз в день`}</span>
+          <span>{r.stand ? 'Стенд: цифры-пример, не данные сайта' : `Данные на ${stamp(r.fetched_at)} · обновляются по запросу`}</span>
         </div>
       </div>
       {error && <p class="err" role="alert">{error} Показаны данные, загруженные раньше.</p>}
