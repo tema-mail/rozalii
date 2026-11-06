@@ -82,7 +82,7 @@
     const cnt = { cart: cartItems().reduce((a, x) => a + x.q, 0), orders: S.orders.filter(o => o.status === 'На согласовании').length, realization: S.requests.filter(r => r.status === 'На согласовании').length };
     $('#nav').innerHTML = ROUTES.map(([k, n]) => `<a href="#${k}" class="${k === cur ? 'on' : ''}">${n}${cnt[k] ? `<span class="cnt">${cnt[k]}</span>` : ''}</a>`).join('');
     $('#mob').innerHTML = ROUTES.filter(r => MOB.includes(r[0])).map(([k, n, i]) => `<a href="#${k}" class="${k === cur ? 'on' : ''}"><span>${i}</span>${n.split(' ')[0]}${cnt[k] ? ` (${cnt[k]})` : ''}</a>`).join('');
-    $('#mgr').innerHTML = 'Ваш менеджер<br><b style="color:#fff">Ольга Смирнова</b><br>+7 (900) 000-00-00 · WhatsApp';
+    $('#mgr').innerHTML = 'Ваш менеджер<br><b style="color:#fff">Ольга Смирнова</b><br>+7 (900) 000-00-00 · Telegram';
     $('#title').textContent = (ROUTES.find(r => r[0] === cur) || ROUTES[0])[1];
   }
 
