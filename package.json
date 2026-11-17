@@ -8,7 +8,8 @@
     "build": "astro build && python3 scripts/page-cards.py dist",
     "preview": "astro preview --port 4790",
     "port": "node scripts/tilda-port.mjs",
-    "opt": "python3 scripts/opt-data.py"
+    "opt": "python3 scripts/opt-data.py",
+    "test": "node --test scripts/*.test.mjs"
   },
   "dependencies": {
     "@astrojs/preact": "^6.1.1",

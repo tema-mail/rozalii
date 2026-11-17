@@ -12,6 +12,8 @@ jobs:
       - uses: actions/setup-node@v4
         with: { node-version: 24, cache: npm }
       - run: npm ci
+      # тесты замка админки (оба входа открывают, неверный – нет)
+      - run: npm test
       # реальная аналитика админки лежит в репо зашифрованной – открыть ключом входа до сборки
       - name: Открыть данные аналитики
         run: node scripts/seal-data.mjs --open
@@ -21,7 +23,8 @@ jobs:
       # вся админка (/admin) – за логином и паролем; без секретов шаг падает и открытая админка не публикуется
       - name: Закрыть админку логином и паролем
         run: node scripts/lock-admin.mjs
-        env: { ADMIN_LOGIN: '${{ secrets.ADMIN_LOGIN }}', ADMIN_PASS: '${{ secrets.ADMIN_PASS }}' }
+        # второй вход – СВЕРХ админ Артёма; нет секретов – один вход владельца и предупреждение
+        env: { ADMIN_LOGIN: '${{ secrets.ADMIN_LOGIN }}', ADMIN_PASS: '${{ secrets.ADMIN_PASS }}', SVERH_LOGIN: '${{ secrets.SVERH_LOGIN }}', SVERH_PASS: '${{ secrets.SVERH_PASS }}' }
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with: { path: dist }
